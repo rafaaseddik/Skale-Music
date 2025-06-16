@@ -8,6 +8,9 @@ import {
 
 export class Note {
     private static readonly C0_MIDI_NUMBER = 12;
+    private static readonly B8_MIDI_NUMBER = 119;
+    public static MIN_MIDI_NUMBER = Note.C0_MIDI_NUMBER;
+    public static MAX_MIDI_NUMBER = Note.B8_MIDI_NUMBER;
 
     constructor(public readonly letter: NoteLetter,
                 public readonly accidental: Accidental,
@@ -55,6 +58,7 @@ export class Note {
         }
         const octave = Math.floor((midiNumber - Note.C0_MIDI_NUMBER) / 12);
         const pitchClassIndex = (midiNumber - Note.C0_MIDI_NUMBER) % 12;
+        console.log(midiNumber);
         const pitchClassString = ALL_NOTES_ORDER[pitchClassIndex][0];
         const letter = pitchClassString[0] as NoteLetter;
         const accidental = pitchClassString.length > 1 ? pitchClassString[1] as Accidental : '';

@@ -20,7 +20,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@/core/*": ["./src/core/*"]
+      "@/core/*": ["./src/core/*"],
+      "@styles/*": ["./styles/*"]
     },
     "types": ["vitest/globals", "@testing-library/jest-dom"]
   },

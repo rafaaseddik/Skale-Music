@@ -35,3 +35,19 @@ export const INTERVALS_NAMES: Record<Interval, string> = {
     [Interval.MinorSeventh]: "Minor Seventh",
     [Interval.Octave]: "Octave"
 };
+
+export const ALL_INTERVALS: Interval[] = [
+    Interval.Unison,
+    Interval.MinorSecond,
+    Interval.MajorSecond,
+    Interval.MinorThird,
+    Interval.MajorThird,
+    Interval.PerfectFourth,
+    Interval.Tritone,
+    Interval.PerfectFifth,
+    Interval.MinorSixth,
+    Interval.MajorSixth,
+    Interval.MinorSeventh,
+    Interval.MajorSeventh,
+    Interval.Octave
+];

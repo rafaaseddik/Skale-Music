@@ -1,0 +1,19 @@
+.intervals-selector{
+  .intervals-selector-item{
+    padding: 15px;
+    background: black;
+    height: 100%;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 5px;
+    border: 2px solid #8c8c8c;
+    &:hover{
+      border-color: rgba(#8c8c8c,0.8);
+    }
+    &.selected{
+      border-color: #76ec18;
+      color: #76ec18;
+
+    }
+  }
+}
