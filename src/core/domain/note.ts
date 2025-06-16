@@ -9,8 +9,8 @@ import {
 export class Note {
     private static readonly C0_MIDI_NUMBER = 12;
     private static readonly B8_MIDI_NUMBER = 119;
-    public static MIN_MIDI_NUMBER = Note.C0_MIDI_NUMBER;
-    public static MAX_MIDI_NUMBER = Note.B8_MIDI_NUMBER;
+    public static MIN_MIDI_NUMBER = 21; // A0
+    public static MAX_MIDI_NUMBER = 96; // C7
 
     constructor(public readonly letter: NoteLetter,
                 public readonly accidental: Accidental,
