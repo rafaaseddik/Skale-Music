@@ -1,0 +1,28 @@
+import { INTERVALS_NAMES, Interval } from "../definitions/intervals.definition";
+
+export class IntervalUtils {
+    /**
+     * Returns the name of the interval based on the number of semitones, in the range [0, 12).
+     * @param interval The number of semitones
+     * @returns The name of the interval
+     */
+    static getIntervalName(semitones: number) {
+        if(semitones < 0 || semitones > 12) {
+            throw new Error("Interval out of bounds");
+        }
+        return INTERVALS_NAMES[semitones as Interval];
+    }
+
+    /**
+     * Returns the number of semitones of the interval
+     * @param interval The interval
+     * @returns The number of semitones
+     */
+    static getIntervalSemitones(interval: Interval):number {
+        return interval;
+    }
+
+    // static getNoteFromInterval(note: Note, interval: Interval): Note {
+    //
+    // }
+}
