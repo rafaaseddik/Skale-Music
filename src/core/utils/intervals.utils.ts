@@ -1,4 +1,5 @@
 import { INTERVALS_NAMES, Interval } from "../definitions/intervals.definition";
+import { Note } from "@/core/domain/note";
 
 export class IntervalUtils {
     /**
@@ -22,7 +23,7 @@ export class IntervalUtils {
         return interval;
     }
 
-    // static getNoteFromInterval(note: Note, interval: Interval): Note {
-    //
-    // }
+    static getNoteFromInterval(note: Note, interval: Interval): Note {
+        return note.moveSemitones(interval);
+    }
 }

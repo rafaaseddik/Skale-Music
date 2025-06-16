@@ -1,9 +1,11 @@
 import { describe, it, expect } from 'vitest'
 import { Interval } from "@/core/definitions/intervals.definition";
 import { IntervalUtils } from "../intervals.utils";
+import { Note } from "@/core/domain/note";
+import { NoteString } from "@/core/definitions/notes.definition";
 
 describe("IntervalUtils", () => {
-    describe("getIntervalName", ()=>{
+    describe("getIntervalName", () => {
         it("should get interval name", () => {
             const testCases: [Interval, string][] = [
                 [Interval.Unison, "Unison"],
@@ -50,4 +52,27 @@ describe("IntervalUtils", () => {
             expect(IntervalUtils.getIntervalSemitones(interval)).toBe(semitones);
         });
     });
+    describe("getNoteFromInterval", () => {
+        const testCases: [NoteString, Interval, NoteString][] = [
+            ["C0", Interval.Unison, "C0"],
+            ["C0", Interval.MinorSecond, "C#0"],
+            ["C0", Interval.MajorSecond, "D0"],
+            ["C0", Interval.MinorThird, "D#0"],
+            ["C0", Interval.MajorThird, "E0"],
+            ["C0", Interval.PerfectFourth, "F0"],
+            ["C0", Interval.Tritone, "F#0"],
+            ["C0", Interval.PerfectFifth, "G0"],
+            ["C0", Interval.MinorSixth, "G#0"],
+            ["C0", Interval.MajorSixth, "A0"],
+            ["C0", Interval.MinorSeventh, "A#0"],
+            ["C0", Interval.MajorSeventh, "B0"],
+            ["C0", Interval.Octave, "C1"],
+        ];
+        testCases.forEach(([note, interval, expectedNote]: [NoteString, Interval, NoteString]) => {
+            it(`should get the ${IntervalUtils.getIntervalName(interval)} from ${note} to be ${expectedNote}`, () => {
+                expect(IntervalUtils.getNoteFromInterval(Note.fromString(note), interval).noteString).toBe(expectedNote);
+
+            })
+        });
+    })
 });

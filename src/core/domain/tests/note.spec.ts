@@ -62,7 +62,7 @@ describe("Note class", () => {
         });
     });
 
-    describe("should compute correct MIDI number", () => {
+    describe("should compute correct MIDI number and create from MIDI number", () => {
         const testCases: [NoteLetter, Accidental, Octave, number][] = [
             ["C", "", "0", 12],
             ["C", "#", "0", 13],
@@ -101,8 +101,15 @@ describe("Note class", () => {
         testCases.forEach(([letter, accidental, octave, expectedMidi]) => {
             const note = new Note(letter, accidental, octave);
             it(`should compute correct MIDI number for note ${note.noteString}`, () => {
-
                 expect(note.midiNumber()).toBe(expectedMidi);
+            })
+        });
+        testCases.filter(a=>a[1]!=="b" && !(a[0]=="B" && a[1]=="#")).forEach(([expectedLetter, expectedAccidental, expectedOctave, midi]) => {
+            const note = Note.fromMidiNumber(midi);
+            it(`should create Note from MIDI number for code ${midi}`, () => {
+                expect(note.letter).toBe(expectedLetter);
+                expect(note.accidental).toBe(expectedAccidental);
+                expect(note.octave).toBe(expectedOctave);
             })
         });
     });
@@ -146,6 +153,42 @@ describe("Note class", () => {
             expect(note.octave).toBe(octave);
         });
     });
+
+    describe("should moveSemitones", ()=>{
+        const testCases: [NoteString, number, NoteString][] = [
+          ["C0", 0, "C0"],
+          ["C0", 1, "C#0"],
+          ["C0", 2, "D0"],
+          ["C0", 3, "D#0"],
+          ["C0", 4, "E0"],
+          ["C0", 5, "F0"],
+          ["C0", 6, "F#0"],
+          ["C0", 7, "G0"],
+          ["C0", 8, "G#0"],
+          ["C0", 9, "A0"],
+          ["C0", 10, "A#0"],
+          ["C0", 11, "B0"],
+          ["C0", 12, "C1"],
+          ["C0", 15, "D#1"],
+          ["C0", 20, "G#1"],
+          ["C0", 24, "C2"],
+          ["C0", 25, "C#2"],
+          ["C0", 35, "B2"],
+          ["C0", 50, "D4"],
+        ]
+        testCases.forEach(([lowNoteString, semitones, highNoteString]) => {
+            it(`should move ${semitones} from ${lowNoteString} to ${highNoteString}`, () => {
+                const note = Note.fromString(lowNoteString);
+                const movedNote = note.moveSemitones(semitones);
+                expect(movedNote.noteString).toBe(highNoteString);
+            })
+            it(`should move ${-semitones} from ${highNoteString} to ${lowNoteString}`, () => {
+                const note = Note.fromString(highNoteString);
+                const movedNote = note.moveSemitones(-semitones);
+                expect(movedNote.noteString).toBe(lowNoteString);
+            })
+        })
+    })
 
     it("should throw an error for invalid NoteString", () => {
         expect(() => Note.fromString("H2" as NoteString)).toThrowError(
