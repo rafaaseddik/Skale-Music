@@ -8,6 +8,14 @@
     }
     &-primary{
         background-color: var(--theme-color);
+        &:disabled{
+            background-color: rgb(from var(--theme-color) r g b / 0.5);
+            color: var(--theme-grey);
+
+        }
     }
+    &:disabled{
+        cursor: not-allowed;
+    };
 
 }
