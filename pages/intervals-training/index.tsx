@@ -44,20 +44,33 @@ export default function IntervalsTraining() {
     }
     return (
       <div>
-          <h1 className="text-2xl text-center p-2">Intervals Training</h1>
+          <h1 className="text-2xl flex justify-center p-2 mb-2"><img src="/skale.svg" alt="logo" width={150}/></h1>
+          <h1 className="text-2xl text-center font-bold p-2 bg-white text-black">Intervals ear training</h1>
           {!gameSession && <>
-              <IntervalsSelector initialSelectedIntervals={selectedIntervals}
-                                 intervalUpdated={selectedIntervals => setSelectedIntervals(selectedIntervals)}></IntervalsSelector>
-              <button className="btn btn-blue" onClick={() => startSession()}>Start Session</button>
+              <div className="p-3 mt-2 text-center">Please select the intervals you want to practice</div>
+              <div className="p-3">
+                  <IntervalsSelector initialSelectedIntervals={selectedIntervals}
+                                     intervalUpdated={selectedIntervals => setSelectedIntervals(selectedIntervals)}></IntervalsSelector>
+                  <div className="mt-4 text-center">
+                      <button className="btn btn-white-outline" onClick={() => startSession()}>Start Session</button>
+                  </div>
+
+              </div>
           </>
           }
           {
             gameSession && (
               <>
-                  <div>Played {gameSession.finishedRoundsCount} rounds. Your accuracy is {gameSession.accuracy}%</div>
-                  <div>
-                      <button disabled={!selectedIntervals.length || !gameSession.currentRound?.isFinished} onClick={() => generateInterval()}
-                              className="btn btn-blue">New Round
+                  <div className="p-3 mt-2 text-center">
+                      You Played {gameSession.finishedRoundsCount} rounds. You made {gameSession.guessesCount} guesses.
+                        You made {gameSession.firstTryCorrectRoundsCount} correct first try rounds.
+                      <div className={gameSession.rounds.length > 0 ? '' : 'hidden'}><br/>Your accuracy
+                          is {gameSession.accuracy}%</div></div>
+                  <div className="text-center">
+                      <button
+                        disabled={!selectedIntervals.length || (!gameSession.currentRound?.isFinished && gameSession.rounds?.length > 0)}
+                        onClick={() => generateInterval()}
+                        className="btn btn-white-outline mt-2 mb-5">Next Round
                       </button>
                   </div>
                   {

@@ -32,7 +32,7 @@ export class IntervalsTrainingGameSession {
         return this.rounds.reduce((total, round) => total + round.answers.length, 0);
     }
 
-    get correctRoundsCount(): number {
+    get firstTryCorrectRoundsCount(): number {
         return this.rounds.filter(round => round.isFirstTry).length;
     }
 
@@ -40,7 +40,7 @@ export class IntervalsTrainingGameSession {
         if (this.finishedRoundsCount === 0) {
             return 0;
         }
-        return Math.round(this.correctRoundsCount / this.finishedRoundsCount * 100) ;
+        return Math.round(this.firstTryCorrectRoundsCount / this.finishedRoundsCount * 100) ;
     }
     get currentRound(): IntervalTrainingRound | undefined {
         return this.rounds.at(-1);

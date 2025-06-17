@@ -8,6 +8,8 @@
     border-radius: 5px;
     border: 2px solid #8c8c8c;
     color: #8c8c8c;
+    display: block;
+    align-content: center;
     &:hover{
       border-color: rgba(#8c8c8c,0.8);
     }

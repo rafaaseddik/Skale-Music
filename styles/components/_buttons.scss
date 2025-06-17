@@ -1,9 +1,10 @@
 .btn{
-    @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded;
-    &-blue{
-        @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded;
+    @apply bg-black text-white font-bold py-2 px-4 rounded cursor-pointer;
+    &-white-outline{
+        @apply bg-black outline-white outline-1 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded;
+        &:disabled{
+            @apply cursor-not-allowed text-gray-400 hover:bg-black outline-0;
+        }
     }
-    &:disabled{
-        @apply cursor-not-allowed bg-gray-200 ;
-    }
+
 }
