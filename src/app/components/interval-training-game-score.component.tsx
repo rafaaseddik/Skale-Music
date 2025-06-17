@@ -5,17 +5,25 @@ type IntervalTrainingGameScoreProps = {
 }
 export default function IntervalTrainingGameScore({gameSession}: IntervalTrainingGameScoreProps) {
     return (
-      <>
-          You Played {gameSession.finishedRoundsCount} rounds. You made {gameSession.guessesCount} guesses.
-          You made {gameSession.firstTryCorrectRoundsCount} correct first try rounds.
-          <div className={gameSession.rounds.length > 0 ? '' : 'hidden'}><br/>Your accuracy
-              is {gameSession.accuracy}%</div>
-          <div className="grid grid-cols-4">
-            <div><div>Played rounds</div><div>{gameSession.finishedRoundsCount}</div></div>
-            <div><div>First try correct</div><div>{gameSession.firstTryCorrectRoundsCount}</div></div>
-            <div><div>Played guesses</div><div>{gameSession.guessesCount}</div></div>
-              <div><div>Accuracy</div><div>{gameSession.rounds.length > 0 ? <span>{gameSession.accuracy}%</span> : <span>-</span>}</div></div>
+      <div className="interval-training-game-score">
+          <div className="grid grid-cols-4 gap-2">
+              <div className="score-item">
+                  <div className="text-theme-color-hover font-bold">Played rounds</div>
+                  <div>{gameSession.finishedRoundsCount}</div>
+              </div>
+              <div className="score-item score-item-green">
+                  <div className="text-theme-green-hover font-bold">First try correct</div>
+                  <div>{gameSession.firstTryCorrectRoundsCount}</div>
+              </div>
+              <div className="score-item">
+                  <div className="text-theme-color-hover font-bold">Played guesses</div>
+                  <div>{gameSession.guessesCount}</div>
+              </div>
+              <div className="score-item score-item-red">
+                  <div className="text-theme-red-hover font-bold">Accuracy</div>
+                  <div>{gameSession.rounds.length > 0 ? <span>{gameSession.accuracy}%</span> : <span>-</span>}</div>
+              </div>
           </div>
-      </>
+      </div>
     )
 }

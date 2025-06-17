@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+:root {
+  --background: #030712;
+  --foreground: #ededed;
+  --theme-color: #7c3aed;
+  --theme-green: #4ade80;
+  --theme-red: #f87171;
+  --theme-color-hover: #a78bfa;
+  --theme-green-hover: #4ade80;
+  --theme-red-hover: #f87171;
+  --theme-grey: #9ca3af;
+  --theme-border: #a78bfa;
+  --theme-grey-border: #374151;
+  --theme-border-hover: #8b5cf680;
+  --theme-green-border: #4ade80;
+  --theme-red-border: #f87171;
+  --theme-text-highlight: #c4b5fd;
+  --theme-text-green-highlight: #86efac;
+  --theme-text-red-highlight: #fca5a5;
+  --theme-box-bg: #8b5cf633;
+  --theme-box-bg-grey: #11182780;
+  --theme-box-bg-green: #22c55e33;
+  --theme-box-bg-red: #ef444433;
+  --theme-box-bg-grey-hover: #8b5cf61a;
+  --theme-box-bg-hover: rgba(139, 92, 246, 0.1);
+  --theme-box-shadow: rgba(139, 92, 246, 0.25);
+  --theme-box-border: #a78bfa80;
+  --theme-box-border-green: #4ade8080;
+  --theme-box-border-red: #f8717180;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #030712;
+    --foreground: #ededed;
+    --theme-color: #7c3aed;
+    --theme-color-hover: #a78bfa;
+    --theme-grey: #9ca3af;
+    --theme-border: #a78bfa;
+    --theme-grey-border: #374151;
+    --theme-border-hover: #8b5cf680;
+    --theme-green-border: #4ade80;
+    --theme-red-border: #f87171;
+    --theme-text-highlight: #c4b5fd;
+    --theme-text-green-highlight: #86efac;
+    --theme-text-red-highlight: #fca5a5;
+    --theme-box-bg: #8b5cf633;
+    --theme-box-bg-grey: #11182780;
+    --theme-box-bg-grey-hover: #8b5cf61a;
+    --theme-box-shadow: rgba(139, 92, 246, 0.25);
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Raleway', sans-serif;
+}

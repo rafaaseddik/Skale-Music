@@ -1,0 +1,32 @@
+.text-theme-color-title{
+  color: transparent;
+  @apply bg-gradient-to-r from-green-100 via-violet-500 to-violet-600 bg-clip-text text-transparent;
+}
+.text-theme-color{
+  color: var(--theme-color);
+}
+.text-theme-grey{
+  color: var(--theme-grey);
+}
+.text-theme-green{
+  color: var(--theme-green);
+}
+.text-theme-red{
+  color: var(--theme-red);
+}
+.text-theme-color-hover{
+  color: var(--theme-color-hover);
+}
+.text-theme-green-hover{
+  color: var(--theme-green-hover);
+}
+.text-theme-red-hover{
+  color: var(--theme-red-hover);
+}
+@media (prefers-color-scheme: dark) {
+  .text-theme-color-title{
+    color: transparent;
+    @apply bg-gradient-to-r from-violet-400 via-violet-500 to-violet-600 bg-clip-text text-transparent;
+  }
+}
+

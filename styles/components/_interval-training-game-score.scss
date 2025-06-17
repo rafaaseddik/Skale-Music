@@ -1,0 +1,15 @@
+.interval-training-game-score {
+  .score-item{
+    background-color: var(--theme-box-bg);
+    border: 2px solid var(--theme-box-border);
+    padding: 12px;
+    &-green{
+      background-color: var(--theme-box-bg-green);
+      border: 2px solid var(--theme-box-border-green);
+    }
+    &-red{
+      background-color: var(--theme-box-bg-red);
+      border: 2px solid var(--theme-box-border-red);
+    }
+  }
+}

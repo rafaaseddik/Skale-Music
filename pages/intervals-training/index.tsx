@@ -46,14 +46,16 @@ export default function IntervalsTraining() {
     return (
       <div>
           <h1 className="text-2xl flex justify-center p-2 mb-2"><img src="/skale.svg" alt="logo" width={150}/></h1>
-          <h1 className="text-2xl text-center font-bold p-2 bg-white text-black">Intervals ear training</h1>
+          <h1 className="text-3xl text-center font-bold text-theme-color-title">Intervals Ear Training</h1>
+          <h3 className="text-l text-center text-theme-grey">Improve your memory for intervals</h3>
+
           {!gameSession && <>
               <div className="p-3 mt-2 text-center">Please select the intervals you want to practice</div>
               <div className="p-3">
                   <IntervalsSelector initialSelectedIntervals={selectedIntervals}
                                      intervalUpdated={selectedIntervals => setSelectedIntervals(selectedIntervals)}></IntervalsSelector>
                   <div className="mt-4 text-center">
-                      <button className="btn btn-white-outline" onClick={() => startSession()}>Start Session</button>
+                      <button className="btn btn-primary" onClick={() => startSession()}>Start Session</button>
                   </div>
 
               </div>
@@ -70,7 +72,7 @@ export default function IntervalsTraining() {
                       <button
                         disabled={!selectedIntervals.length || (!gameSession.currentRound?.isFinished && gameSession.rounds?.length > 0)}
                         onClick={() => generateInterval()}
-                        className="btn btn-white-outline mt-2 mb-5">Next Round
+                        className="btn btn-primary mt-2 mb-5">Next Round
                       </button>
                   </div>
                   {

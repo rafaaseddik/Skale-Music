@@ -40,7 +40,7 @@ export default function IntervalsSelector({
     }
     return (
       <div className="flex flex-col gap-2 intervals-selector">
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-4 gap-4">
               {ALL_INTERVALS.map((interval) => (
                 <div key={interval}
                      className={`${intervalColSpan(interval)} intervals-selector-item  ${ifClass(selectedIntervals.includes(interval), "selected")}`}
