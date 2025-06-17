@@ -29,6 +29,7 @@ export default function IntervalsTraining() {
         const round = new IntervalTrainingRound(interval, [note1, note2], []);
         setGameSession(new IntervalsTrainingGameSession([...gameSession.rounds, round]));
         if (midiPlayerRef.current) {
+            midiPlayerRef.current.stop();
             midiPlayerRef.current.playNote(note1);
             await sleep(1000);
             midiPlayerRef.current.playNote(note2);
@@ -42,6 +43,18 @@ export default function IntervalsTraining() {
         console.log(newGameSession);
 
         //await generateInterval();
+    }
+    const replayInterval = async () => {
+        if (!gameSession) throw new Error("Game session is not initialized");
+        if (!gameSession.currentRound) throw new Error("No current round to replay");
+        const note1 = gameSession.currentRound.notes[0];
+        const note2 = gameSession.currentRound.notes[1];
+        if (midiPlayerRef.current) {
+            midiPlayerRef.current.stop();
+            midiPlayerRef.current.playNote(note1);
+            await sleep(1000);
+            midiPlayerRef.current.playNote(note2);
+        }
     }
     return (
       <div>
@@ -74,16 +87,21 @@ export default function IntervalsTraining() {
                         onClick={() => generateInterval()}
                         className="btn btn-primary mt-2 mb-5">Next Round
                       </button>
+                      <button
+                        disabled={!gameSession.currentRound}
+                        onClick={() => replayInterval()}
+                        className="btn btn-green-outline mt-2 mb-5 ms-4">Replay interval
+                      </button>
                   </div>
                   {
                     gameSession.currentRound &&
-                    (<>
+                    (<div className="p-3">
                         <IntervalSelector correctInterval={gameSession.currentRound.interval}
                                           selectableIntervals={selectedIntervals}
                                           selectedIntervals={gameSession.currentRound.answers}
                                           intervalSelected={guessInterval}
                                           disabled={gameSession.currentRound.isFinished}></IntervalSelector>
-                    </>)
+                    </div>)
                   }
               </>
             )

@@ -14,8 +14,19 @@
 
         }
     }
+    &-green-outline{
+        background-color: var(--theme-box-bg-green);
+        border: 2px solid var(--theme-green-border);
+        color: var(--theme-text-green-highlight);
+        &:disabled{
+            background-color: rgb(from var(--theme-box-bg-green) r g b / 0.5);
+            border: 2px solid var(--theme-grey-border);
+            color: var(--theme-grey);
+        }
+    }
     &:disabled{
         cursor: not-allowed;
     };
+    transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
 
 }

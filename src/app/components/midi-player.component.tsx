@@ -10,6 +10,7 @@ export type MidiPlayerInstrumentName = keyof typeof INSTRUMENTS
 export type MidiPlayerRef = {
     playNote: (note:Note) => void
     changeInstrument: (instrument: MidiPlayerInstrumentName) => void
+    stop: () => void
 }
 export default function MidiPlayer({ref:externalRef}:{ref?:Ref<MidiPlayerRef>}) {
     const [instrumentName, setInstrumentName] = useState<MidiPlayerInstrumentName>("piano");
@@ -32,10 +33,14 @@ export default function MidiPlayer({ref:externalRef}:{ref?:Ref<MidiPlayerRef>}) 
     useImperativeHandle(externalRef, () => ({
         playNote: (note:Note) => {
             if (!playerRef.current || isLoading) return;
-            playerRef.current.play(note.noteString, 0, { duration: 1 });
+            playerRef.current.play(note.noteString, 0, { duration: 1, gain:10 });
         },
         changeInstrument: (instrument: MidiPlayerInstrumentName) => {
             setInstrumentName(instrument);
+        },
+        stop: () => {
+            if (!playerRef.current || isLoading) return;
+            playerRef.current.stop();
         }
     }));
     return <div></div>;
