@@ -8,6 +8,7 @@ import MidiPlayer, { MidiPlayerRef } from "@/app/components/midi-player.componen
 import { sleep } from "@/core/utils/time.utils";
 import { IntervalsTrainingGameSession, IntervalTrainingRound } from "@/core/domain/intervals-training-game-session";
 import IntervalSelector from "@/app/components/interval-selector.component";
+import IntervalTrainingGameScore from "@/app/components/interval-training-game-score.component";
 
 // TODO: make this configurable in the UI
 const MIN_PLAYABLE_NOTE_MIDI_NUMBER = 36; //C3
@@ -62,10 +63,9 @@ export default function IntervalsTraining() {
             gameSession && (
               <>
                   <div className="p-3 mt-2 text-center">
-                      You Played {gameSession.finishedRoundsCount} rounds. You made {gameSession.guessesCount} guesses.
-                        You made {gameSession.firstTryCorrectRoundsCount} correct first try rounds.
-                      <div className={gameSession.rounds.length > 0 ? '' : 'hidden'}><br/>Your accuracy
-                          is {gameSession.accuracy}%</div></div>
+                      <IntervalTrainingGameScore gameSession={gameSession}></IntervalTrainingGameScore>
+
+                  </div>
                   <div className="text-center">
                       <button
                         disabled={!selectedIntervals.length || (!gameSession.currentRound?.isFinished && gameSession.rounds?.length > 0)}
