@@ -27,7 +27,7 @@ export default function IntervalsSelector({
         if (intervalUpdated) {
             intervalUpdated(selectedIntervals);
         }
-    }, [selectedIntervals])
+    }, [intervalUpdated, selectedIntervals])
     const intervalColSpan = (interval: Interval): string => {
         switch (interval) {
             case Interval.Octave:

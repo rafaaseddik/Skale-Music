@@ -1,4 +1,4 @@
-import { ALL_INTERVALS, Interval } from "@/core/definitions/intervals.definition";
+import { Interval } from "@/core/definitions/intervals.definition";
 import { Note } from "@/core/domain/note";
 
 export class IntervalTrainingRound {

@@ -1,6 +1,6 @@
 import IntervalsSelector from "@/app/components/intervals-selector.component";
 import { Interval } from "@/core/definitions/intervals.definition";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IntervalUtils } from "@/core/utils/intervals.utils";
 import { RandomizerUtils } from "@/core/utils/randomizer.utils";
 import MidiPlayer, { MidiPlayerRef } from "@/app/components/midi-player.component";
@@ -18,17 +18,23 @@ export default function IntervalsTraining() {
     const midiPlayerRef = useRef<MidiPlayerRef>(null);
     const [selectedIntervals, setSelectedIntervals] = useState<Interval[]>([]);
     const [gameSession, setGameSession] = useState<IntervalsTrainingGameSession | null>(null);
+    useEffect(()=>{
+
+    }, [gameSession]);
     const startSession = () => {
-        setGameSession(new IntervalsTrainingGameSession(selectedIntervals,[]));
+        const gameSession = new IntervalsTrainingGameSession(selectedIntervals, []);
+        setGameSession(gameSession);
+        // TODO: this is not very stable, can be made better in the future
+        generateInterval(gameSession);
+
     }
-    const generateInterval = async () => {
-        if (!gameSession) throw new Error("Game session is not initialized");
+    const generateInterval = async (gameSessionObj:IntervalsTrainingGameSession) => {
         const index = Math.floor(Math.random() * selectedIntervals.length);
         const interval = selectedIntervals[index];
         const note1 = RandomizerUtils.getRandomNote(MIN_PLAYABLE_NOTE_MIDI_NUMBER, MAX_PLAYABLE_NOTE_MIDI_NUMBER - interval);
         const note2 = IntervalUtils.getNoteFromInterval(note1, interval);
         const round = new IntervalTrainingRound(interval, [note1, note2], []);
-        setGameSession(new IntervalsTrainingGameSession(gameSession.selectedIntervals, [...gameSession.rounds, round]));
+        setGameSession(new IntervalsTrainingGameSession(gameSessionObj.selectedIntervals, [...gameSessionObj.rounds, round]));
         if (midiPlayerRef.current) {
             midiPlayerRef.current.stop();
             midiPlayerRef.current.playNote(note1);
@@ -36,14 +42,16 @@ export default function IntervalsTraining() {
             midiPlayerRef.current.playNote(note2);
         }
     }
+    const nextRound = async ()=>{
+        if (!gameSession) throw new Error("Game session is not initialized");
+        if(gameSession.currentRound && !gameSession.currentRound.isFinished) throw new Error("Invalid state, last round is not finished. Player needs to guess the interval.");
+        await generateInterval(gameSession);
+    }
     const guessInterval = async (interval: Interval) => {
         if (!gameSession) throw new Error("Game session is not initialized");
         if (!gameSession.currentRound || gameSession.currentRound.isFinished) throw new Error("Invalid state, last round is finished. Player needs to start a new round.");
         const newGameSession = gameSession.playerGuessed(interval);
         setGameSession(newGameSession);
-        console.log(newGameSession);
-
-        //await generateInterval();
     }
     const replayInterval = async () => {
         if (!gameSession) throw new Error("Game session is not initialized");
@@ -68,7 +76,9 @@ export default function IntervalsTraining() {
                   <IntervalsSelector initialSelectedIntervals={selectedIntervals}
                                      intervalUpdated={selectedIntervals => setSelectedIntervals(selectedIntervals)}></IntervalsSelector>
                   <div className="mt-4 text-center">
-                      <button className="btn btn-primary" disabled={selectedIntervals.length === 0} onClick={() => startSession()}>Start training</button>
+                      <button className="btn btn-primary" disabled={selectedIntervals.length === 0}
+                              onClick={() => startSession()}>Start training
+                      </button>
                   </div>
 
               </div>
@@ -77,11 +87,11 @@ export default function IntervalsTraining() {
           {
             gameSession && (
               <>
-                  <h1 className="text-2xl text-center mt-2">Round #{gameSession.rounds.length + 1}</h1>
+                  <h1 className="text-2xl text-center mt-2">Round #{gameSession.rounds.length}</h1>
                   <div className="text-center button-group mt-3">
                       <button
                         disabled={!selectedIntervals.length || (!gameSession.currentRound?.isFinished && gameSession.rounds?.length > 0)}
-                        onClick={() => generateInterval()}
+                        onClick={() => nextRound()}
                         className="btn btn-primary-outline mt-2 mb-5">
                           <Play height={15}/> Next Round
                       </button>
@@ -107,7 +117,7 @@ export default function IntervalsTraining() {
 
                   </div>
                   <div>
-                     <IntervalTrainingGameStatistics gameSession={gameSession}></IntervalTrainingGameStatistics>
+                      <IntervalTrainingGameStatistics gameSession={gameSession}></IntervalTrainingGameStatistics>
                   </div>
               </>
             )
