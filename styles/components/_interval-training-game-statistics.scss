@@ -1,0 +1,57 @@
+.interval-training-game-statistics {
+
+  .table-container {
+    border: 1px solid var(--theme-grey-border);
+    border-radius: .5rem;
+    overflow: hidden;
+  }
+
+  table {
+    width: 100%;
+
+  }
+
+  thead tr {
+    background-color: var(--theme-table-head-bg);
+    border-bottom: 1px solid var(--theme-grey-border);
+  }
+
+  th {
+    color: var(--theme-table-head-text);
+    vertical-align: center;
+    text-align: center;
+  }
+
+  td, th {
+    @apply text-xs md:text-base;
+    padding: 8px;
+
+    & > div {
+      text-align: center;
+
+      &.score{
+        border: 1px solid var(--theme-grey-border);
+      }
+      &.very-low-score {
+        background-color: var(--theme-heatmap-red-bg);
+        border-color: var(--theme-heatmap-red-border);
+        color: var(--theme-heatmap-red-text);
+      }
+      &.low-score {
+        background-color: var(--theme-heatmap-orange-bg);
+        border-color: var(--theme-heatmap-orange-border);
+        color: var(--theme-heatmap-orange-text);
+      }
+      &.medium-score {
+        background-color: var(--theme-heatmap-yellow-bg);
+        border-color: var(--theme-heatmap-yellow-border);
+        color: var(--theme-heatmap-yellow-text);
+      }
+      &.high-score {
+        background-color: var(--theme-heatmap-green-bg);
+        border-color: var(--theme-heatmap-green-border);
+        color: var(--theme-heatmap-green-text);
+      }
+    }
+  }
+}

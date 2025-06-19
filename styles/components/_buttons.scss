@@ -1,32 +1,53 @@
-.btn{
-    @apply bg-black text-white font-bold py-2 px-4 rounded cursor-pointer;
-    &-white-outline{
-        @apply bg-black outline-white outline-1 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded;
-        &:disabled{
-            @apply cursor-not-allowed text-gray-400 hover:bg-black outline-0;
-        }
-    }
-    &-primary{
-        background-color: var(--theme-color);
-        &:disabled{
-            background-color: rgb(from var(--theme-color) r g b / 0.5);
-            color: var(--theme-grey);
+.button-group {
+  //background: var(--theme-box-bg);
+  //border: 2px solid var(--theme-border-soft);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  .btn{
+    @apply text-sm md:text-base;
+    margin: 0 0.5rem 0 0;
 
-        }
+    &:last-child{
+      margin-right: 0;
     }
-    &-green-outline{
-        background-color: var(--theme-box-bg-green);
-        border: 2px solid var(--theme-green-border);
-        color: var(--theme-text-green-highlight);
-        &:disabled{
-            background-color: rgb(from var(--theme-box-bg-green) r g b / 0.5);
-            border: 2px solid var(--theme-grey-border);
-            color: var(--theme-grey);
-        }
+  }
+}
+
+.btn {
+  @apply bg-black text-white font-bold py-2 px-4 rounded cursor-pointer;
+  &-white-outline {
+    @apply bg-black outline-white outline-1 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded;
+    &:disabled {
+      @apply cursor-not-allowed text-gray-400 hover:bg-black outline-0;
     }
-    &:disabled{
-        cursor: not-allowed;
-    };
-    transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &-primary {
+    background-color: var(--theme-color);
+
+    &:disabled {
+      background-color: rgb(from var(--theme-color) r g b / 0.5);
+      color: var(--theme-grey);
+
+    }
+  }
+
+  &-green-outline {
+    background-color: var(--theme-box-bg-green);
+    border: 2px solid var(--theme-green-border);
+    color: var(--theme-text-green-highlight);
+
+    &:disabled {
+      background-color: rgb(from var(--theme-box-bg-green) r g b / 0.5);
+      border: 2px solid var(--theme-grey-border);
+      color: var(--theme-grey);
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+;
+  transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
 
 }

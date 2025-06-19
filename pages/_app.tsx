@@ -7,7 +7,14 @@ const raleway = Raleway({
     weight: ['200','400','500','600', '700'], // Pick the weights you need
 })
 function MyApp({ Component, pageProps }: AppProps) {
-    return <main className={raleway.className}><Component {...pageProps} /></main>
+    return <main className={`flex flex-col min-h-screen ${raleway.className}`}>
+        <div className="text-2xl flex justify-center p-2"><img src="/skale.svg" alt="logo" width={150}/></div>
+        <div className={"grow"}>
+            <Component {...pageProps} className='grow' />
+        </div>
+
+        <div className="text-center p-2">Copyright © 2025 Skale. All rights reserved.</div>
+    </main>
 }
 
 export default MyApp

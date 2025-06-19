@@ -1,5 +1,4 @@
-import { ALL_INTERVALS, Interval } from "@/core/definitions/intervals.definition";
-import { useEffect, useState } from "react";
+import { Interval } from "@/core/definitions/intervals.definition";
 import { IntervalUtils } from "@/core/utils/intervals.utils";
 
 type IntervalsSelectorProps = {

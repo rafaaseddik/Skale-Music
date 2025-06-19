@@ -38,9 +38,21 @@ export default function IntervalsSelector({
                 return "col-span-1";
         }
     }
+    const selectAllIntervals = () => {
+        setSelectedIntervals(ALL_INTERVALS);
+    }
+    const deselectAllIntervals = () => {
+        setSelectedIntervals([]);
+    }
     return (
       <div className="flex flex-col gap-2 intervals-selector">
           <div className="grid grid-cols-4 gap-4">
+              <div className="intervals-selector-item col-span-2" onClick={selectAllIntervals}>
+                  <div className="text-center">Select All</div>
+              </div>
+              <div className="intervals-selector-item col-span-2" onClick={deselectAllIntervals}>
+                  <div className="text-center">Deselect All</div>
+              </div>
               {ALL_INTERVALS.map((interval) => (
                 <div key={interval}
                      className={`${intervalColSpan(interval)} intervals-selector-item  ${ifClass(selectedIntervals.includes(interval), "selected")}`}
