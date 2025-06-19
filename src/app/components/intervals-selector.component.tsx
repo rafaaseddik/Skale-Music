@@ -2,6 +2,7 @@ import { ALL_INTERVALS, Interval } from "@/core/definitions/intervals.definition
 import { useEffect, useState } from "react";
 import { IntervalUtils } from "@/core/utils/intervals.utils";
 import { ifClass } from "@/app/utils/react-dom-utils";
+import { CheckSquare, Square } from "lucide-react";
 
 type IntervalsSelectorProps = {
     initialSelectedIntervals?: Interval[]
@@ -48,10 +49,10 @@ export default function IntervalsSelector({
       <div className="flex flex-col gap-2 intervals-selector">
           <div className="grid grid-cols-4 gap-4">
               <div className="intervals-selector-item col-span-2" onClick={selectAllIntervals}>
-                  <div className="text-center">Select All</div>
+                  <div className="text-center"><CheckSquare className="w-5 h-5 text-green-600" color={"var(--theme-grey)"}/>Select All</div>
               </div>
               <div className="intervals-selector-item col-span-2" onClick={deselectAllIntervals}>
-                  <div className="text-center">Deselect All</div>
+                  <div className="text-center"><Square className="w-5 h-5 text-gray-600" color={"var(--theme-grey)"}/>Deselect All</div>
               </div>
               {ALL_INTERVALS.map((interval) => (
                 <div key={interval}

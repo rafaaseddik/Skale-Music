@@ -62,12 +62,12 @@ export default function IntervalsTraining() {
           <h3 className="text-l text-center text-theme-grey">Improve your memory for intervals</h3>
 
           {!gameSession && <>
-              <div className="p-3 mt-2 text-center">Please select the intervals you want to practice</div>
+              <div className="p-3 mt-2 text-center">Pick intervals to practice now</div>
               <div>
                   <IntervalsSelector initialSelectedIntervals={selectedIntervals}
                                      intervalUpdated={selectedIntervals => setSelectedIntervals(selectedIntervals)}></IntervalsSelector>
                   <div className="mt-4 text-center">
-                      <button className="btn btn-primary" disabled={selectedIntervals.length === 0} onClick={() => startSession()}>Start Session</button>
+                      <button className="btn btn-primary" disabled={selectedIntervals.length === 0} onClick={() => startSession()}>Start training</button>
                   </div>
 
               </div>

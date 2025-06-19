@@ -8,15 +8,15 @@ export default function IntervalTrainingGameScore({gameSession}: IntervalTrainin
       <div className="interval-training-game-score">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
               <div className="score-item">
-                  <div className="text-theme-color-hover font-bold text-sm md:text-base">Played rounds</div>
+                  <div className="text-theme-color-hover font-bold text-sm md:text-base">Rounds Played</div>
                   <div className="text-3xl font-medium">{gameSession.finishedRoundsCount}</div>
               </div>
               <div className="score-item score-item-green">
-                  <div className="text-theme-green-hover font-bold text-sm md:text-base">First try correct</div>
+                  <div className="text-theme-green-hover font-bold text-sm md:text-base">First-Try Corrects</div>
                   <div className="text-3xl font-medium">{gameSession.firstTryCorrectRoundsCount}</div>
               </div>
               <div className="score-item">
-                  <div className="text-theme-color-hover font-bold text-sm md:text-base">Played guesses</div>
+                  <div className="text-theme-color-hover font-bold text-sm md:text-base">Total Guesses</div>
                   <div className="text-3xl font-medium">{gameSession.guessesCount}</div>
               </div>
               <div className="score-item score-item-red">

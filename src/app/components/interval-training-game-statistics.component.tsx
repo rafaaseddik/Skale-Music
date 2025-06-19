@@ -39,9 +39,9 @@ export default function IntervalTrainingGameStatistics({gameSession}: IntervalTr
                   <thead>
                   <tr>
                       <th>Interval</th>
-                      <th>Rounds played</th>
-                      <th>Average guesses per round</th>
-                      <th>First try accuracy</th>
+                      <th>Rounds Played</th>
+                      <th>Avg. Guesses/Round</th>
+                      <th>Accuracy</th>
                   </tr>
                   </thead>
                   <tbody>

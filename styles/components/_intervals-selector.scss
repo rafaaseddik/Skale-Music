@@ -9,10 +9,18 @@
     background: var(--theme-box-bg-grey);
     border: 2px solid var(--theme-grey-border);
     color: var(--theme-grey);
-    display: block;
     align-content: center;
     font-weight: 400;
     transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &>div{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .lucide{
+        margin-right: 10px;
+      }
+    }
     @apply text-sm md:text-base;
 
     &:hover {
