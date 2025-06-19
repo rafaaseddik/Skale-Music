@@ -6,7 +6,9 @@
   .btn{
     @apply text-sm md:text-base;
     margin: 0 0.5rem 0 0;
-
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     &:last-child{
       margin-right: 0;
     }
@@ -31,7 +33,17 @@
 
     }
   }
+  &-primary-outline {
+    background-color: var(--theme-box-bg);
+    border: 2px solid var(--theme-color);
+    color: var(--theme-text-highlight);
 
+    &:disabled {
+      background-color: rgb(from var(--theme-box-bg) r g b / 0.5);
+      border: 2px solid var(--theme-grey-border);
+      color: var(--theme-grey);
+    }
+  }
   &-green-outline {
     background-color: var(--theme-box-bg-green);
     border: 2px solid var(--theme-green-border);

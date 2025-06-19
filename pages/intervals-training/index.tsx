@@ -9,6 +9,7 @@ import { IntervalsTrainingGameSession, IntervalTrainingRound } from "@/core/doma
 import IntervalSelector from "@/app/components/interval-selector.component";
 import IntervalTrainingGameScore from "@/app/components/interval-training-game-score.component";
 import IntervalTrainingGameStatistics from "@/app/components/interval-training-game-statistics.component";
+import { Play, RotateCcw } from "lucide-react";
 
 // TODO: make this configurable in the UI
 const MIN_PLAYABLE_NOTE_MIDI_NUMBER = 36; //C3
@@ -81,12 +82,14 @@ export default function IntervalsTraining() {
                       <button
                         disabled={!selectedIntervals.length || (!gameSession.currentRound?.isFinished && gameSession.rounds?.length > 0)}
                         onClick={() => generateInterval()}
-                        className="btn btn-primary mt-2 mb-5">Next Round
+                        className="btn btn-primary-outline mt-2 mb-5">
+                          <Play height={15}/> Next Round
                       </button>
                       <button
                         disabled={!gameSession.currentRound}
                         onClick={() => replayInterval()}
-                        className="btn btn-green-outline mt-2 mb-5 ms-4">Replay interval
+                        className="btn btn-green-outline mt-2 mb-5 ms-4">
+                          <RotateCcw height={15}/> Replay interval
                       </button>
                   </div>
                   {
