@@ -1,7 +1,7 @@
 import { ALL_INTERVALS, Interval } from "@/core/definitions/intervals.definition";
 import { useEffect, useState } from "react";
 import { IntervalUtils } from "@/core/utils/intervals.utils";
-import { ifClass } from "@/app/utils/react-dom-utils";
+import { ifClass } from "@/shared/utils/react-dom-utils";
 import { CheckSquare, Square } from "lucide-react";
 
 type IntervalsSelectorProps = {

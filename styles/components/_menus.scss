@@ -1,0 +1,32 @@
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 0;
+  width: calc(100% - 30px);
+  .menu-item {
+    @apply text-sm md:text-base;
+    padding: 20px;
+    background: var(--theme-box-bg-grey);
+    border: 2px solid var(--theme-grey-border);
+    color: white;
+    align-content: center;
+    font-weight: 400;
+    transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    &:first-child {
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+    }
+    &:last-child {
+     border-bottom-left-radius: 5px;
+     border-bottom-right-radius: 5px;
+    }
+
+
+    &:hover {
+      border-color: var(--theme-border-hover);
+      color: var(--theme-color-hover);
+      background: var(--theme-box-bg-hover);
+    }
+  }
+}

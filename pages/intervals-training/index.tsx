@@ -1,14 +1,14 @@
-import IntervalsSelector from "@/app/components/intervals-selector.component";
+import IntervalsSelector from "@/shared/components/intervals-selector.component";
 import { Interval } from "@/core/definitions/intervals.definition";
 import { useEffect, useRef, useState } from "react";
 import { IntervalUtils } from "@/core/utils/intervals.utils";
 import { RandomizerUtils } from "@/core/utils/randomizer.utils";
-import MidiPlayer, { MidiPlayerRef } from "@/app/components/midi-player.component";
+import MidiPlayer, { MidiPlayerRef } from "@/shared/components/midi-player.component";
 import { sleep } from "@/core/utils/time.utils";
 import { IntervalsTrainingGameSession, IntervalTrainingRound } from "@/core/domain/intervals-training-game-session";
-import IntervalSelector from "@/app/components/interval-selector.component";
-import IntervalTrainingGameScore from "@/app/components/interval-training-game-score.component";
-import IntervalTrainingGameStatistics from "@/app/components/interval-training-game-statistics.component";
+import IntervalSelector from "@/shared/components/interval-selector.component";
+import IntervalTrainingGameScore from "@/shared/components/interval-training-game-score.component";
+import IntervalTrainingGameStatistics from "@/shared/components/interval-training-game-statistics.component";
 import { Play, RotateCcw } from "lucide-react";
 
 // TODO: make this configurable in the UI

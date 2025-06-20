@@ -1,6 +1,6 @@
 import { IntervalsTrainingGameSession } from "@/core/domain/intervals-training-game-session";
 import { IntervalUtils } from "@/core/utils/intervals.utils";
-import { percentageString, round } from "@/app/utils/react-dom-utils";
+import { percentageString, round } from "@/shared/utils/react-dom-utils";
 import { useEffect, useState } from "react";
 
 type IntervalTrainingGameStatisticsProps = {
