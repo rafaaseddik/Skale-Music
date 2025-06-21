@@ -18,6 +18,27 @@ export enum Chord{
     MINOR_NINTH=16,
     MAJOR_NINTH=17,
 }
+export const ALL_CHORDS: Chord[] = [
+    Chord.MAJOR,
+    Chord.MINOR,
+    Chord.DIMINISHED,
+    Chord.AUGMENTED,
+    Chord.SUSPENDED_SECOND,
+    Chord.SUSPENDED_FOURTH,
+    Chord.DOMINANT_SEVENTH,
+    Chord.MAJOR_SEVENTH,
+    Chord.MINOR_SEVENTH,
+    Chord.DIMINISHED_SEVENTH,
+    Chord.HALF_DIMINISHED_SEVENTH,
+    Chord.AUGMENTED_SEVENTH,
+    Chord.MINOR_MAJOR_SEVENTH,
+    Chord.SIXTH,
+    Chord.MINOR_SIXTH,
+    Chord.NINTH,
+    Chord.MINOR_NINTH,
+    Chord.MAJOR_NINTH,
+
+]
 export const CHORDS_NAMES: Record<Chord, string> = {
     [Chord.MAJOR]: "Major",
     [Chord.MINOR]: "Minor",
