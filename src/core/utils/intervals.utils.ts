@@ -4,7 +4,6 @@ import { Note } from "@/core/domain/note";
 export class IntervalUtils {
     /**
      * Returns the name of the interval based on the number of semitones, in the range [0, 12).
-     * @param interval The number of semitones
      * @returns The name of the interval
      */
     static getIntervalName(semitones: number) {
