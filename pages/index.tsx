@@ -1,6 +1,7 @@
 import { ifClass } from "@/shared/utils/react-dom-utils";
 import { Dumbbell, Tally4, Telescope } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 type ToolType = "all" | "ear_gym" | "visualizer";
 export default function Home() {
@@ -13,45 +14,55 @@ export default function Home() {
               <div className="tool-type-selectors-container">
                   <div className={`tool-type-selector ${ifClass(toolsType === "all", "active")}`}
                        onClick={() => setToolsType("all")}>
-                      <div className="tool-type-icon"><Tally4 /></div>
+                      <div className="tool-type-icon"><Tally4/></div>
                       All tools
                   </div>
                   <div className={`tool-type-selector ${ifClass(toolsType === "ear_gym", "active")}`}
                        onClick={() => setToolsType("ear_gym")}>
-                      <div className="tool-type-icon"><Dumbbell /></div>
+                      <div className="tool-type-icon"><Dumbbell/></div>
                       Ear Gym
                   </div>
                   <div className={`tool-type-selector ${ifClass(toolsType === "visualizer", "active")}`}
                        onClick={() => setToolsType("visualizer")}>
-                      <div className="tool-type-icon"><Telescope /></div>
+                      <div className="tool-type-icon"><Telescope/></div>
                       Visualizers
                   </div>
               </div>
-          </div>
-          <div className="flex flex-col justify-center items-center">
-              <div><h1 className={"flex text-2xl justify-center items-center mt-3"}><Dumbbell className={"mr-2"}/>Ear
-                  Gym</h1></div>
-              <div className="menu-container">
-                  <div className="menu-item" style={{
-                      background: "url(./backgrounds/intervals.png)",
-                      backgroundSize: "cover",
-                      backgroundPosition: "center"
-                  }}>Intervals Recognition
+              <div
+                className={"grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-2 pt-3 px-3"}>
+                  <div
+                    className={`tool-container tool-container-intervals-training ${ifClass(toolsType !== 'ear_gym' && toolsType !== 'all', "hidden")}`}>
+                      <div className={"tool-icon"}><Image className={"invert"} src={"icons/Perfect 5th.svg"}
+                                                          alt={"logo"} width={60} height={50}/></div>
+                      <div className={"tool-name"}>Intervals ear training</div>
+                      <div className={"tool-type"}><Dumbbell/> Ear gym</div>
                   </div>
-                  <div className="menu-item" style={{
-                      background: "url(./backgrounds/chords.png)",
-                      backgroundSize: "cover",
-                      backgroundPosition: "center"
-                  }}>Chords Recognition
+                  <div
+                    className={`tool-container tool-container-chords-recognition ${ifClass(toolsType !== 'ear_gym' && toolsType !== 'all', "hidden")}`}>
+                      <div className={"tool-icon"}><Image className={"invert"} src={"icons/Chord.svg"} alt={"logo"}
+                                                          width={40} height={50}/></div>
+                      <div className={"tool-name"}>Chords recognition</div>
+                      <div className={"tool-type"}><Dumbbell/> Ear gym</div>
                   </div>
-                  <div className="menu-item">Scale Identification</div>
-              </div>
-
-              <div><h1 className={"flex text-2xl justify-center items-center mt-3"}><Telescope
-                className={"mr-2"}/> Explore</h1></div>
-              <div className="menu-container">
-                  <div className="menu-item">Scales</div>
-                  <div className="menu-item">Chords</div>
+                  <div
+                    className={`tool-container tool-container-mode-identification ${ifClass(toolsType !== 'ear_gym' && toolsType !== 'all', "hidden")}`}>
+                      <div className={"tool-icon"}><Image className={"invert"} src={"icons/Circle of fifths.svg"}
+                                                          alt={"logo"} width={60} height={50}/></div>
+                      <div className={"tool-name"}>Mode identification</div>
+                      <div className={"tool-type"}><Dumbbell/> Ear gym</div>
+                  </div>
+                  <div
+                    className={`tool-container tool-container-scale-visualizer inactive ${ifClass(toolsType !== 'visualizer' && toolsType !== 'all', "hidden")}`}>
+                      <div className={"tool-icon"}>WIP</div>
+                      <div className={"tool-name"}>Scale visualizer</div>
+                      <div className={"tool-type"}><Telescope/> Visualizer</div>
+                  </div>
+                  <div
+                    className={`tool-container tool-container-chords-visualizer inactive ${ifClass(toolsType !== 'visualizer' && toolsType !== 'all', "hidden")}`}>
+                      <div className={"tool-icon"}>WIP</div>
+                      <div className={"tool-name"}>Chords visualizer</div>
+                      <div className={"tool-type"}><Telescope/> Visualizer</div>
+                  </div>
               </div>
           </div>
       </div>
