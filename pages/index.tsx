@@ -31,7 +31,9 @@ export default function Home() {
               <div
                 className={"grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-2 pt-3 px-3"}>
                   <div
-                    className={`tool-container tool-container-intervals-training ${ifClass(toolsType !== 'ear_gym' && toolsType !== 'all', "hidden")}`}>
+                    className={`tool-container tool-container-intervals-training ${ifClass(toolsType !== 'ear_gym' && toolsType !== 'all', "hidden")}`}
+                    onClick={() => window.location.href = '/intervals-training'}
+                  >
                       <div className={"tool-icon"}><Image className={"invert"} src={"icons/Perfect 5th.svg"}
                                                           alt={"logo"} width={60} height={50}/></div>
                       <div className={"tool-name"}>Intervals ear training</div>
