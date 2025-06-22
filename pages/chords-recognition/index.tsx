@@ -1,17 +1,13 @@
-import IntervalsSelector from "@/shared/components/intervals-selector.component";
-import { Interval } from "@/core/definitions/intervals.definition";
-import { useEffect, useRef, useState } from "react";
-import { IntervalUtils } from "@/core/utils/intervals.utils";
+import { useRef, useState } from "react";
+
 import { RandomizerUtils } from "@/core/utils/randomizer.utils";
 import MidiPlayer, { MidiPlayerRef } from "@/shared/components/midi-player.component";
-import { sleep } from "@/core/utils/time.utils";
-import { IntervalsTrainingGameSession, IntervalTrainingRound } from "@/core/domain/intervals-training-game-session";
-import IntervalSelector from "@/shared/components/interval-selector.component";
-import IntervalTrainingGameScore from "@/shared/components/interval-training-game-score.component";
-import IntervalTrainingGameStatistics from "@/shared/components/interval-training-game-statistics.component";
 import { Play, RotateCcw } from "lucide-react";
 import { Chord } from "@/core/definitions/chords.definition";
 import ChordsSelector from "@/shared/components/chords-selector.component";
+import { ChordsTrainingGameSession, ChordTrainingRound } from "@/core/domain/chords-training-game-session";
+import { ChordsUtils } from "@/core/utils/chords.utils";
+import ChordSelector from "@/shared/components/chord-selector.component";
 
 // TODO: make this configurable in the UI
 const MIN_PLAYABLE_NOTE_MIDI_NUMBER = 36; //C3
@@ -19,58 +15,56 @@ const MAX_PLAYABLE_NOTE_MIDI_NUMBER = 72; // C5
 export default function ChordsRecognition() {
     const midiPlayerRef = useRef<MidiPlayerRef>(null);
     const [selectedChords, setSelectedChords] = useState<Chord[]>([]);
-    const [gameSession, setGameSession] = useState<IntervalsTrainingGameSession | null>(null);
+    const [gameSession, setGameSession] = useState<ChordsTrainingGameSession | null>(null);
     // useEffect(()=>{
     //
     // }, [gameSession]);
     const startSession = () => {
-        // const gameSession = new IntervalsTrainingGameSession(selectedIntervals, []);
-        // setGameSession(gameSession);
-        // // TODO: this is not very stable, can be made better in the future
-        // generateInterval(gameSession);
+        const gameSession = new ChordsTrainingGameSession(selectedChords, []);
+        setGameSession(gameSession);
+        // TODO: this is not very stable, can be made better in the future
+        generateChord(gameSession);
 
     }
-    const generateInterval = async (gameSessionObj: IntervalsTrainingGameSession) => {
-        // const index = Math.floor(Math.random() * selectedIntervals.length);
-        // const interval = selectedIntervals[index];
-        // const note1 = RandomizerUtils.getRandomNote(MIN_PLAYABLE_NOTE_MIDI_NUMBER, MAX_PLAYABLE_NOTE_MIDI_NUMBER - interval);
-        // const note2 = IntervalUtils.getNoteFromInterval(note1, interval);
-        // const round = new IntervalTrainingRound(interval, [note1, note2], []);
-        // setGameSession(new IntervalsTrainingGameSession(gameSessionObj.selectedIntervals, [...gameSessionObj.rounds, round]));
-        // if (midiPlayerRef.current) {
-        //     midiPlayerRef.current.stop();
-        //     midiPlayerRef.current.playNote(note1);
-        //     await sleep(1000);
-        //     midiPlayerRef.current.playNote(note2);
-        // }
+    const generateChord = async (gameSessionObj: ChordsTrainingGameSession) => {
+        const index = Math.floor(Math.random() * selectedChords.length);
+        const interval = selectedChords[index];
+        const rootNote = RandomizerUtils.getRandomNote(MIN_PLAYABLE_NOTE_MIDI_NUMBER, MAX_PLAYABLE_NOTE_MIDI_NUMBER - interval);
+        const notes = ChordsUtils.getNotesFromChord(rootNote, interval);
+        const round = new ChordTrainingRound(interval, notes, []);
+        setGameSession(new ChordsTrainingGameSession(gameSessionObj.selectedChords, [...gameSessionObj.rounds, round]));
+        if (midiPlayerRef.current) {
+            midiPlayerRef.current.stop();
+            for (const note of notes) {
+                midiPlayerRef.current.playNote(note);
+            }
+        }
     }
     const nextRound = async () => {
-        // if (!gameSession) throw new Error("Game session is not initialized");
-        // if(gameSession.currentRound && !gameSession.currentRound.isFinished) throw new Error("Invalid state, last round is not finished. Player needs to guess the interval.");
-        // await generateInterval(gameSession);
+        if (!gameSession) throw new Error("Game session is not initialized");
+        if (gameSession.currentRound && !gameSession.currentRound.isFinished) throw new Error("Invalid state, last round is not finished. Player needs to guess the chord.");
+        await generateChord(gameSession);
     }
-    const guessInterval = async (interval: Interval) => {
-        // if (!gameSession) throw new Error("Game session is not initialized");
-        // if (!gameSession.currentRound || gameSession.currentRound.isFinished) throw new Error("Invalid state, last round is finished. Player needs to start a new round.");
-        // const newGameSession = gameSession.playerGuessed(interval);
-        // setGameSession(newGameSession);
+    const guessChord = async (chord: Chord) => {
+        if (!gameSession) throw new Error("Game session is not initialized");
+        if (!gameSession.currentRound || gameSession.currentRound.isFinished) throw new Error("Invalid state, last round is finished. Player needs to start a new round.");
+        const newGameSession = gameSession.playerGuessed(chord);
+        setGameSession(newGameSession);
     }
-    const replayInterval = async () => {
-        // if (!gameSession) throw new Error("Game session is not initialized");
-        // if (!gameSession.currentRound) throw new Error("No current round to replay");
-        // const note1 = gameSession.currentRound.notes[0];
-        // const note2 = gameSession.currentRound.notes[1];
-        // if (midiPlayerRef.current) {
-        //     midiPlayerRef.current.stop();
-        //     midiPlayerRef.current.playNote(note1);
-        //     await sleep(1000);
-        //     midiPlayerRef.current.playNote(note2);
-        // }
+    const replayChord = async () => {
+        if (!gameSession) throw new Error("Game session is not initialized");
+        if (!gameSession.currentRound) throw new Error("No current round to replay");
+        if (midiPlayerRef.current) {
+            midiPlayerRef.current.stop();
+            for (const note of gameSession.currentRound.notes) {
+                midiPlayerRef.current.playNote(note);
+            }
+        }
     }
     return (
       <div className={"p-2"}>
-          <h1 className="text-3xl text-center font-bold text-theme-color-title">Intervals Ear Training</h1>
-          <h3 className="text-l text-center text-theme-grey">Improve your memory for intervals</h3>
+          <h1 className="text-3xl text-center font-bold text-theme-color-title">Chords Recognition</h1>
+          <h3 className="text-l text-center text-theme-grey">Improve your memory for chords</h3>
 
           {!gameSession && <>
               <div className="p-3 mt-2 text-center">Pick intervals to practice now</div>
@@ -86,44 +80,44 @@ export default function ChordsRecognition() {
               </div>
           </>
           }
-          {/*{*/}
-          {/*  gameSession && (*/}
-          {/*    <>*/}
-          {/*        <h1 className="text-2xl text-center mt-2">Round #{gameSession.rounds.length}</h1>*/}
-          {/*        <div className="text-center button-group mt-3">*/}
-          {/*            <button*/}
-          {/*              disabled={!selectedChords.length || (!gameSession.currentRound?.isFinished && gameSession.rounds?.length > 0)}*/}
-          {/*              onClick={() => nextRound()}*/}
-          {/*              className="btn btn-primary-outline mt-2 mb-5">*/}
-          {/*                <Play height={15}/> Next Round*/}
-          {/*            </button>*/}
-          {/*            <button*/}
-          {/*              disabled={!gameSession.currentRound}*/}
-          {/*              onClick={() => replayInterval()}*/}
-          {/*              className="btn btn-green-outline mt-2 mb-5 ms-4">*/}
-          {/*                <RotateCcw height={15}/> Replay interval*/}
-          {/*            </button>*/}
-          {/*        </div>*/}
-          {/*        {*/}
-          {/*          gameSession.currentRound &&*/}
-          {/*          (<div className="py-3">*/}
-          {/*              <IntervalSelector correctInterval={gameSession.currentRound.interval}*/}
-          {/*                                selectableIntervals={selectedIntervals}*/}
-          {/*                                selectedIntervals={gameSession.currentRound.answers}*/}
-          {/*                                intervalSelected={guessInterval}*/}
-          {/*                                disabled={gameSession.currentRound.isFinished}></IntervalSelector>*/}
-          {/*          </div>)*/}
-          {/*        }*/}
-          {/*        <div className="py-3 mt-2 text-center">*/}
-          {/*            <IntervalTrainingGameScore gameSession={gameSession}></IntervalTrainingGameScore>*/}
+          {
+            gameSession && (
+              <>
+                  <h1 className="text-2xl text-center mt-2">Round #{gameSession.rounds.length}</h1>
+                  <div className="text-center button-group mt-3">
+                      <button
+                        disabled={!selectedChords.length || (!gameSession.currentRound?.isFinished && gameSession.rounds?.length > 0)}
+                        onClick={() => nextRound()}
+                        className="btn btn-primary-outline mt-2 mb-5">
+                          <Play height={15}/> Next Round
+                      </button>
+                      <button
+                        disabled={!gameSession.currentRound}
+                        onClick={() => replayChord()}
+                        className="btn btn-green-outline mt-2 mb-5 ms-4">
+                          <RotateCcw height={15}/> Replay chord
+                      </button>
+                  </div>
+                  {
+                    gameSession.currentRound &&
+                    (<div className="py-3">
+                        <ChordSelector correctChord={gameSession.currentRound.chord}
+                                       selectableChords={selectedChords}
+                                       selectedChords={gameSession.currentRound.answers}
+                                       chordSelected={guessChord}
+                                       disabled={gameSession.currentRound.isFinished}></ChordSelector>
+                    </div>)
+                  }
+                  {/*<div className="py-3 mt-2 text-center">*/}
+                  {/*    <IntervalTrainingGameScore gameSession={gameSession}></IntervalTrainingGameScore>*/}
 
-          {/*        </div>*/}
-          {/*        <div>*/}
-          {/*            <IntervalTrainingGameStatistics gameSession={gameSession}></IntervalTrainingGameStatistics>*/}
-          {/*        </div>*/}
-          {/*    </>*/}
-          {/*  )*/}
-          {/*}*/}
+                  {/*</div>*/}
+                  {/*<div>*/}
+                  {/*    <IntervalTrainingGameStatistics gameSession={gameSession}></IntervalTrainingGameStatistics>*/}
+                  {/*</div>*/}
+              </>
+            )
+          }
           <MidiPlayer ref={midiPlayerRef}></MidiPlayer>
       </div>
     )
