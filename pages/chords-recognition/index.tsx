@@ -8,6 +8,7 @@ import ChordsSelector from "@/shared/components/chords-selector.component";
 import { ChordsTrainingGameSession, ChordTrainingRound } from "@/core/domain/chords-training-game-session";
 import { ChordsUtils } from "@/core/utils/chords.utils";
 import ChordSelector from "@/shared/components/chord-selector.component";
+import Head from "next/head";
 
 // TODO: make this configurable in the UI
 const MIN_PLAYABLE_NOTE_MIDI_NUMBER = 36; //C3
@@ -61,64 +62,68 @@ export default function ChordsRecognition() {
             }
         }
     }
-    return (
-      <div className={"p-2"}>
-          <h1 className="text-3xl text-center font-bold text-theme-color-title">Chords Recognition</h1>
-          <h3 className="text-l text-center text-theme-grey">Improve your memory for chords</h3>
+    return (<>
+          <Head>
+              <title>Skale | Chords Recognition</title>
+          </Head>
+          <div className={"p-2"}>
+              <h1 className="text-3xl text-center font-bold text-theme-color-title">Chords Recognition</h1>
+              <h3 className="text-l text-center text-theme-grey">Improve your memory for chords</h3>
 
-          {!gameSession && <>
-              <div className="p-3 mt-2 text-center">Pick intervals to practice now</div>
-              <div>
-                  <ChordsSelector initialSelectedChords={selectedChords}
-                                  chordsUpdated={selectedChords => setSelectedChords(selectedChords)}></ChordsSelector>
-                  <div className="mt-4 text-center">
-                      <button className="btn btn-primary" disabled={selectedChords.length === 0}
-                              onClick={() => startSession()}>Start training
-                      </button>
+              {!gameSession && <>
+                  <div className="p-3 mt-2 text-center">Pick intervals to practice now</div>
+                  <div>
+                      <ChordsSelector initialSelectedChords={selectedChords}
+                                      chordsUpdated={selectedChords => setSelectedChords(selectedChords)}></ChordsSelector>
+                      <div className="mt-4 text-center">
+                          <button className="btn btn-primary" disabled={selectedChords.length === 0}
+                                  onClick={() => startSession()}>Start training
+                          </button>
+                      </div>
+
                   </div>
-
-              </div>
-          </>
-          }
-          {
-            gameSession && (
-              <>
-                  <h1 className="text-2xl text-center mt-2">Round #{gameSession.rounds.length}</h1>
-                  <div className="text-center button-group mt-3">
-                      <button
-                        disabled={!selectedChords.length || (!gameSession.currentRound?.isFinished && gameSession.rounds?.length > 0)}
-                        onClick={() => nextRound()}
-                        className="btn btn-primary-outline mt-2 mb-5">
-                          <Play height={15}/> Next Round
-                      </button>
-                      <button
-                        disabled={!gameSession.currentRound}
-                        onClick={() => replayChord()}
-                        className="btn btn-green-outline mt-2 mb-5 ms-4">
-                          <RotateCcw height={15}/> Replay chord
-                      </button>
-                  </div>
-                  {
-                    gameSession.currentRound &&
-                    (<div className="py-3">
-                        <ChordSelector correctChord={gameSession.currentRound.chord}
-                                       selectableChords={selectedChords}
-                                       selectedChords={gameSession.currentRound.answers}
-                                       chordSelected={guessChord}
-                                       disabled={gameSession.currentRound.isFinished}></ChordSelector>
-                    </div>)
-                  }
-                  {/*<div className="py-3 mt-2 text-center">*/}
-                  {/*    <IntervalTrainingGameScore gameSession={gameSession}></IntervalTrainingGameScore>*/}
-
-                  {/*</div>*/}
-                  {/*<div>*/}
-                  {/*    <IntervalTrainingGameStatistics gameSession={gameSession}></IntervalTrainingGameStatistics>*/}
-                  {/*</div>*/}
               </>
-            )
-          }
-          <MidiPlayer ref={midiPlayerRef}></MidiPlayer>
-      </div>
+              }
+              {
+                gameSession && (
+                  <>
+                      <h1 className="text-2xl text-center mt-2">Round #{gameSession.rounds.length}</h1>
+                      <div className="text-center button-group mt-3">
+                          <button
+                            disabled={!selectedChords.length || (!gameSession.currentRound?.isFinished && gameSession.rounds?.length > 0)}
+                            onClick={() => nextRound()}
+                            className="btn btn-primary-outline mt-2 mb-5">
+                              <Play height={15}/> Next Round
+                          </button>
+                          <button
+                            disabled={!gameSession.currentRound}
+                            onClick={() => replayChord()}
+                            className="btn btn-green-outline mt-2 mb-5 ms-4">
+                              <RotateCcw height={15}/> Replay chord
+                          </button>
+                      </div>
+                      {
+                        gameSession.currentRound &&
+                        (<div className="py-3">
+                            <ChordSelector correctChord={gameSession.currentRound.chord}
+                                           selectableChords={selectedChords}
+                                           selectedChords={gameSession.currentRound.answers}
+                                           chordSelected={guessChord}
+                                           disabled={gameSession.currentRound.isFinished}></ChordSelector>
+                        </div>)
+                      }
+                      {/*<div className="py-3 mt-2 text-center">*/}
+                      {/*    <IntervalTrainingGameScore gameSession={gameSession}></IntervalTrainingGameScore>*/}
+
+                      {/*</div>*/}
+                      {/*<div>*/}
+                      {/*    <IntervalTrainingGameStatistics gameSession={gameSession}></IntervalTrainingGameStatistics>*/}
+                      {/*</div>*/}
+                  </>
+                )
+              }
+              <MidiPlayer ref={midiPlayerRef}></MidiPlayer>
+          </div>
+      </>
     )
 }
