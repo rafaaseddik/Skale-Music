@@ -5,6 +5,8 @@
 Built using modern technologies like **Next.js 15**, **SCSS**, **Vitest**, and **Yarn**, Skale is fast, modular, and easy to extend.
 
 ---
+## Website
+[https://skale-music.vercel.app/](https://skale-music.vercel.app/)
 
 ## 🚀 Features
 
