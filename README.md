@@ -33,6 +33,11 @@ git clone https://github.com/your-username/skale.git
 cd skale
 yarn install
 
+
 ```
 ### Author
 - [Mohamed Rafaa Seddik](https://github.com/rafaaseddik)
+
+
+### Smartlook
+This app uses Smartlook to collect anonymous usage data to improve the app's functionality. For more information, please visit [Smartlook](https://smartlook.com/privacy).
