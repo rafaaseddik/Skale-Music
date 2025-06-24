@@ -36,7 +36,7 @@ export default function GameStatistics<T extends GuessableType>({gameSession, ty
             firstTryAccuracy: firstTryAccuracyPerInterval[guessableItem] ?? 0,
         }));
         setStats(stats);
-    }, [gameSession]);
+    }, [gameSession, type]);
 
     const getHeatmapClassFromPercentage = (value: number): string => {
         if (value < 25) return "very-low-score"
