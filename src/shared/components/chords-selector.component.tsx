@@ -31,11 +31,6 @@ export default function ChordsSelector({
     }, [chordsUpdated, selectedChords])
     const ChordColSpan = (Chord: Chord): string => {
         switch (Chord) {
-          // case Chord.Octave:
-          // case Chord.Unison:
-          //     return "col-span-4";
-          // case Chord.Tritone:
-          //     return "col-span-2";
             default:
                 return "col-span-1";
         }

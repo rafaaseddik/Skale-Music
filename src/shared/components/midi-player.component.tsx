@@ -1,3 +1,4 @@
+"use client"
 import { Ref, useEffect, useImperativeHandle, useRef, useState } from "react";
 import Soundfont from "soundfont-player";
 import { Note } from "@/core/domain/note";

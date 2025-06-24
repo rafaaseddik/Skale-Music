@@ -1,3 +1,4 @@
+"use client"
 import IntervalsSelector from "@/shared/components/intervals-selector.component";
 import { Interval } from "@/core/definitions/intervals.definition";
 import { useEffect, useRef, useState } from "react";
@@ -7,10 +8,10 @@ import MidiPlayer, { MidiPlayerRef } from "@/shared/components/midi-player.compo
 import { sleep } from "@/core/utils/time.utils";
 import { IntervalsTrainingGameSession, IntervalTrainingRound } from "@/core/domain/intervals-training-game-session";
 import IntervalSelector from "@/shared/components/interval-selector.component";
-import IntervalTrainingGameScore from "@/shared/components/interval-training-game-score.component";
-import IntervalTrainingGameStatistics from "@/shared/components/interval-training-game-statistics.component";
 import { Play, RotateCcw } from "lucide-react";
 import Head from "next/head";
+import GameScore from "@/shared/components/game-score.component";
+import GameStatistics from "@/shared/components/game-statistics.component";
 
 // TODO: make this configurable in the UI
 const MIN_PLAYABLE_NOTE_MIDI_NUMBER = 36; //C3
@@ -34,8 +35,8 @@ export default function IntervalsTraining() {
         const interval = selectedIntervals[index];
         const note1 = RandomizerUtils.getRandomNote(MIN_PLAYABLE_NOTE_MIDI_NUMBER, MAX_PLAYABLE_NOTE_MIDI_NUMBER - interval);
         const note2 = IntervalUtils.getNoteFromInterval(note1, interval);
-        const round = new IntervalTrainingRound(interval, [note1, note2], []);
-        setGameSession(new IntervalsTrainingGameSession(gameSessionObj.selectedIntervals, [...gameSessionObj.rounds, round]));
+        const round:IntervalTrainingRound = new IntervalTrainingRound(interval, [note1, note2], []);
+        setGameSession(new IntervalsTrainingGameSession(gameSessionObj.guessableItems, [...gameSessionObj.rounds, round]));
         if (midiPlayerRef.current) {
             midiPlayerRef.current.stop();
             midiPlayerRef.current.playNote(note1);
@@ -110,7 +111,7 @@ export default function IntervalsTraining() {
                       {
                         gameSession.currentRound &&
                         (<div className="py-3">
-                            <IntervalSelector correctInterval={gameSession.currentRound.interval}
+                            <IntervalSelector correctInterval={gameSession.currentRound.toGuess}
                                               selectableIntervals={selectedIntervals}
                                               selectedIntervals={gameSession.currentRound.answers}
                                               intervalSelected={guessInterval}
@@ -118,11 +119,11 @@ export default function IntervalsTraining() {
                         </div>)
                       }
                       <div className="py-3 mt-2 text-center">
-                          <IntervalTrainingGameScore gameSession={gameSession}></IntervalTrainingGameScore>
+                          <GameScore gameSession={gameSession}></GameScore>
 
                       </div>
                       <div>
-                          <IntervalTrainingGameStatistics gameSession={gameSession}></IntervalTrainingGameStatistics>
+                          <GameStatistics type={"intervals"} gameSession={gameSession}></GameStatistics>
                       </div>
                   </>
                 )
