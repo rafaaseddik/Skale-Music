@@ -12,6 +12,11 @@ export default function Home() {
       <>
           <Head>
               <title>Skale | Your music toolbox</title>
+              <meta property="og:title" content="Skale | Your music toolbox" key="ogtitle" />
+              <meta property="og:description" content="Skale is a smart toolbox for musicians to practice ear training for chords, intervals, and modes — plus powerful tools to visualize scales and chords on any instrument." key="ogdesc" />
+              <meta property="og:image" content="https://skale-music.vercel.app/OG_image.png" key="ogimage" />
+              <meta property="og:url" content="https://skale-music.vercel.app/" key="ogurl" />
+              <meta property="og:type" content="website" />
           </Head>
           <div className={"p-2"}>
               <h1 className="text-3xl text-center font-bold text-theme-color-title">Welcome to Skale</h1>
