@@ -1,3 +1,4 @@
+"use client"
 import { ifClass } from "@/shared/utils/react-dom-utils";
 import { Dumbbell, Tally4, Telescope } from "lucide-react";
 import { useState } from "react";
@@ -54,10 +55,10 @@ export default function Home() {
                       </div>
                       <div
                         className={`tool-container tool-container-mode-identification ${ifClass(toolsType !== 'ear_gym' && toolsType !== 'all', "hidden")}`}
-                        onClick={() => window.location.href = '/diatonic-modes-recognition'}>
+                        onClick={() => window.location.href = '/diatonic-modes-identification'}>
                           <div className={"tool-icon"}><Image className={"invert"} src={"icons/Circle of fifths.svg"}
                                                               alt={"logo"} width={60} height={50}/></div>
-                          <div className={"tool-name"}>Mode identification</div>
+                          <div className={"tool-name"}>Modes identification</div>
                           <div className={"tool-type"}><Dumbbell/> Ear gym</div>
                       </div>
                       <div

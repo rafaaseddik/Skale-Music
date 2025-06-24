@@ -1,3 +1,4 @@
+"use client"
 import { useRef, useState } from "react";
 
 import { RandomizerUtils } from "@/core/utils/randomizer.utils";
@@ -19,9 +20,7 @@ export default function ChordsRecognition() {
     const midiPlayerRef = useRef<MidiPlayerRef>(null);
     const [selectedChords, setSelectedChords] = useState<Chord[]>([]);
     const [gameSession, setGameSession] = useState<ChordsTrainingGameSession | null>(null);
-    // useEffect(()=>{
-    //
-    // }, [gameSession]);
+
     const startSession = () => {
         const gameSession = new ChordsTrainingGameSession(selectedChords, []);
         setGameSession(gameSession);

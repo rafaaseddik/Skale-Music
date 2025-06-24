@@ -1,3 +1,4 @@
+"use client"
 import IntervalsSelector from "@/shared/components/intervals-selector.component";
 import { Interval } from "@/core/definitions/intervals.definition";
 import { useEffect, useRef, useState } from "react";

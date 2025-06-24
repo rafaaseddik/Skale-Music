@@ -1,3 +1,4 @@
+"use client"
 import { useRef, useState } from "react";
 
 import { RandomizerUtils } from "@/core/utils/randomizer.utils";
