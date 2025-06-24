@@ -1,7 +1,8 @@
 import { Note } from "@/core/domain/note";
 import { Interval } from "@/core/definitions/intervals.definition";
 import { Chord } from "@/core/definitions/chords.definition";
-export type GuessableType = Interval | Chord;
+import { DiatonicMode } from "@/core/definitions/diatonic-modes.definition";
+export type GuessableType = Interval | Chord | DiatonicMode;
 export class BaseGuessingGameRound<GuessType extends GuessableType>{
     constructor(
       public readonly toGuess:GuessType,

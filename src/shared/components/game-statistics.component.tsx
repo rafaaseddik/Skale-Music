@@ -6,11 +6,12 @@ import { ChordsUtils } from "@/core/utils/chords.utils";
 
 interface GameStatisticsProps<T extends GuessableType> {
     gameSession: BaseGuessingGameSession<T>
-    type: 'intervals' | 'chords'
+    type: 'intervals' | 'chords' | 'diatonic-modes'
 }
 const labelMap = {
     'intervals': 'Interval',
-    'chords': 'Chord'
+    'chords': 'Chord',
+    'diatonic-modes': 'Diatonic Mode'
 }
 export default function GameStatistics<T extends GuessableType>({gameSession, type}: GameStatisticsProps<T>) {
     const [stats, setStats] = useState<{name:string, playedRoundsCount: number, averageGuesses: number, firstTryAccuracy: number}[]>([]);

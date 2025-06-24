@@ -53,7 +53,8 @@ export default function Home() {
                           <div className={"tool-type"}><Dumbbell/> Ear gym</div>
                       </div>
                       <div
-                        className={`tool-container tool-container-mode-identification ${ifClass(toolsType !== 'ear_gym' && toolsType !== 'all', "hidden")}`}>
+                        className={`tool-container tool-container-mode-identification ${ifClass(toolsType !== 'ear_gym' && toolsType !== 'all', "hidden")}`}
+                        onClick={() => window.location.href = '/diatonic-modes-recognition'}>
                           <div className={"tool-icon"}><Image className={"invert"} src={"icons/Circle of fifths.svg"}
                                                               alt={"logo"} width={60} height={50}/></div>
                           <div className={"tool-name"}>Mode identification</div>
