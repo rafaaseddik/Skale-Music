@@ -1,6 +1,8 @@
 import { Note } from "@/core/domain/note";
-
-export class BaseGuessingGameRound<GuessType>{
+import { Interval } from "@/core/definitions/intervals.definition";
+import { Chord } from "@/core/definitions/chords.definition";
+export type GuessableType = Interval | Chord;
+export class BaseGuessingGameRound<GuessType extends GuessableType>{
     constructor(
       public readonly toGuess:GuessType,
       public readonly notes:Note[],
@@ -14,7 +16,7 @@ export class BaseGuessingGameRound<GuessType>{
     }
 
 }
-export class BaseGuessingGameSession<GuessType extends string | number | symbol>{
+export class BaseGuessingGameSession<GuessType extends GuessableType>{
     constructor(public readonly guessableItems:GuessType[], public readonly rounds:BaseGuessingGameRound<GuessType>[] = []){}
     get roundsCount(): number {
         return this.rounds.length;
@@ -45,14 +47,14 @@ export class BaseGuessingGameSession<GuessType extends string | number | symbol>
         const newRound = new BaseGuessingGameRound<GuessType>(lastRound.toGuess, lastRound.notes, [...lastRound.answers, guess]);
         return new BaseGuessingGameSession<GuessType>(this.guessableItems, [...this.rounds, newRound]);
     }
-    playedRoundsPerGuessType(): Record<GuessType, number> {
+    playedRoundsPerGuessType(): Partial<Record<GuessType, number>> {
         return this.guessableItems.reduce((acc, guessableItem) => {
             acc[guessableItem] = this.rounds.filter(round => round.toGuess === guessableItem && round.isFinished).length;
             return acc;
         }, {} as Record<GuessType, number>)
     }
 
-    averageGuessesPerGuessType(): Record<GuessType, number> {
+    averageGuessesPerGuessType(): Partial<Record<GuessType, number>> {
         const accumulator: Record<GuessType, {
             guessesCount: number,
             roundsCount: number
@@ -76,7 +78,7 @@ export class BaseGuessingGameSession<GuessType extends string | number | symbol>
             return acc;
         }, {} as Record<GuessType, number>)
     }
-    firstTryAccuracyPerGuessType(): Record<GuessType, number> {
+    firstTryAccuracyPerGuessType(): Partial<Record<GuessType, number>> {
         const accumulator: Record<GuessType, {
             firstGuessCount: number,
             roundsCount: number

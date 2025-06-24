@@ -9,6 +9,8 @@ import { ChordsTrainingGameSession, ChordTrainingRound } from "@/core/domain/cho
 import { ChordsUtils } from "@/core/utils/chords.utils";
 import ChordSelector from "@/shared/components/chord-selector.component";
 import Head from "next/head";
+import GameScore from "@/shared/components/game-score.component";
+import GameStatistics from "@/shared/components/game-statistics.component";
 
 // TODO: make this configurable in the UI
 const MIN_PLAYABLE_NOTE_MIDI_NUMBER = 36; //C3
@@ -33,7 +35,7 @@ export default function ChordsRecognition() {
         const rootNote = RandomizerUtils.getRandomNote(MIN_PLAYABLE_NOTE_MIDI_NUMBER, MAX_PLAYABLE_NOTE_MIDI_NUMBER - interval);
         const notes = ChordsUtils.getNotesFromChord(rootNote, interval);
         const round = new ChordTrainingRound(interval, notes, []);
-        setGameSession(new ChordsTrainingGameSession(gameSessionObj.selectedChords, [...gameSessionObj.rounds, round]));
+        setGameSession(new ChordsTrainingGameSession(gameSessionObj.guessableItems, [...gameSessionObj.rounds, round]));
         if (midiPlayerRef.current) {
             midiPlayerRef.current.stop();
             for (const note of notes) {
@@ -105,20 +107,22 @@ export default function ChordsRecognition() {
                       {
                         gameSession.currentRound &&
                         (<div className="py-3">
-                            <ChordSelector correctChord={gameSession.currentRound.chord}
+                            <ChordSelector correctChord={gameSession.currentRound.toGuess}
                                            selectableChords={selectedChords}
                                            selectedChords={gameSession.currentRound.answers}
                                            chordSelected={guessChord}
                                            disabled={gameSession.currentRound.isFinished}></ChordSelector>
                         </div>)
                       }
-                      {/*<div className="py-3 mt-2 text-center">*/}
-                      {/*    <IntervalTrainingGameScore gameSession={gameSession}></IntervalTrainingGameScore>*/}
+                      <div className="py-3 mt-2 text-center">
+                          <GameScore gameSession={gameSession}></GameScore>
 
-                      {/*</div>*/}
-                      {/*<div>*/}
-                      {/*    <IntervalTrainingGameStatistics gameSession={gameSession}></IntervalTrainingGameStatistics>*/}
-                      {/*</div>*/}
+                      </div>
+                      <div>
+                          <div>
+                              <GameStatistics type={"chords"} gameSession={gameSession}></GameStatistics>
+                          </div>
+                      </div>
                   </>
                 )
               }

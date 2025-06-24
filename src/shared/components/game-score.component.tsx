@@ -1,9 +1,9 @@
-import { IntervalsTrainingGameSession } from "@/core/domain/intervals-training-game-session";
+import { BaseGuessingGameSession, GuessableType } from "@/core/domain/BaseGuessingGameSession";
 
-type IntervalTrainingGameScoreProps = {
-    gameSession: IntervalsTrainingGameSession
+interface GameScoreProps<T extends GuessableType>  {
+    gameSession: BaseGuessingGameSession<T>
 }
-export default function IntervalTrainingGameScore({gameSession}: IntervalTrainingGameScoreProps) {
+export default function GameScore<T extends GuessableType>({gameSession}:GameScoreProps<T>) {
     return (
       <div className="interval-training-game-score">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
