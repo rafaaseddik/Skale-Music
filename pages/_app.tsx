@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import { Raleway} from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import SmartLookScript from "@/shared/components/smartlook/smartlook-script.component";
 
 const raleway = Raleway({
     subsets: ['latin'],
@@ -13,6 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <div className="text-2xl flex justify-center p-2">
             <Link href="/"><Image src="/skale.svg" alt="logo" width={150} height={50}/></Link></div>
         <div className={"grow"}>
+            <SmartLookScript/>
             <Component {...pageProps} className='grow' />
         </div>
 
