@@ -1,9 +1,9 @@
 "use client"
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { RandomizerUtils } from "@/core/utils/randomizer.utils";
 import MidiPlayer, { MidiPlayerRef } from "@/shared/components/midi-player.component";
-import { Play, RotateCcw } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import { Chord } from "@/core/definitions/chords.definition";
 import ChordsSelector from "@/shared/components/chords-selector.component";
 import { ChordsTrainingGameSession, ChordTrainingRound } from "@/core/domain/chords-training-game-session";
@@ -14,18 +14,25 @@ import GameScore from "@/shared/components/game-score.component";
 import GameStatistics from "@/shared/components/game-statistics.component";
 
 // TODO: make this configurable in the UI
-const MIN_PLAYABLE_NOTE_MIDI_NUMBER = 36; //C3
+const MIN_PLAYABLE_NOTE_MIDI_NUMBER = 57; //A3
 const MAX_PLAYABLE_NOTE_MIDI_NUMBER = 72; // C5
+const SHOW_CORRECT_ANSWER_TIMEOUT = 500;
 export default function ChordsRecognition() {
     const midiPlayerRef = useRef<MidiPlayerRef>(null);
     const [selectedChords, setSelectedChords] = useState<Chord[]>([]);
     const [gameSession, setGameSession] = useState<ChordsTrainingGameSession | null>(null);
 
-    const startSession = () => {
+    useEffect(() => {
+        if(gameSession && gameSession.currentRound && gameSession.currentRound.isFinished) {
+            setTimeout(()=>nextRound(), SHOW_CORRECT_ANSWER_TIMEOUT); // The timeout is to let the player see the green light
+        }
+    }, [gameSession]);
+
+    const startSession = async () => {
         const gameSession = new ChordsTrainingGameSession(selectedChords, []);
         setGameSession(gameSession);
         // TODO: this is not very stable, can be made better in the future
-        generateChord(gameSession);
+        await generateChord(gameSession);
 
     }
     const generateChord = async (gameSessionObj: ChordsTrainingGameSession) => {
@@ -90,12 +97,6 @@ export default function ChordsRecognition() {
                   <>
                       <h1 className="text-2xl text-center mt-2">Round #{gameSession.rounds.length}</h1>
                       <div className="text-center button-group mt-3">
-                          <button
-                            disabled={!selectedChords.length || (!gameSession.currentRound?.isFinished && gameSession.rounds?.length > 0)}
-                            onClick={() => nextRound()}
-                            className="btn btn-primary-outline mt-2 mb-5">
-                              <Play height={15}/> Next Round
-                          </button>
                           <button
                             disabled={!gameSession.currentRound}
                             onClick={() => replayChord()}

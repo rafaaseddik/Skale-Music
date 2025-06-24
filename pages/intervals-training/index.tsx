@@ -8,26 +8,29 @@ import MidiPlayer, { MidiPlayerRef } from "@/shared/components/midi-player.compo
 import { sleep } from "@/core/utils/time.utils";
 import { IntervalsTrainingGameSession, IntervalTrainingRound } from "@/core/domain/intervals-training-game-session";
 import IntervalSelector from "@/shared/components/interval-selector.component";
-import { Play, RotateCcw } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import Head from "next/head";
 import GameScore from "@/shared/components/game-score.component";
 import GameStatistics from "@/shared/components/game-statistics.component";
 
 // TODO: make this configurable in the UI
-const MIN_PLAYABLE_NOTE_MIDI_NUMBER = 36; //C3
+const MIN_PLAYABLE_NOTE_MIDI_NUMBER = 45; //A2
 const MAX_PLAYABLE_NOTE_MIDI_NUMBER = 72; // C5
+const SHOW_CORRECT_ANSWER_TIMEOUT = 500;
 export default function IntervalsTraining() {
     const midiPlayerRef = useRef<MidiPlayerRef>(null);
     const [selectedIntervals, setSelectedIntervals] = useState<Interval[]>([]);
     const [gameSession, setGameSession] = useState<IntervalsTrainingGameSession | null>(null);
     useEffect(() => {
-
+        if(gameSession && gameSession.currentRound && gameSession.currentRound.isFinished) {
+            setTimeout(()=>nextRound(), SHOW_CORRECT_ANSWER_TIMEOUT); // The timeout is to let the player see the green light
+        }
     }, [gameSession]);
-    const startSession = () => {
+    const startSession = async () => {
         const gameSession = new IntervalsTrainingGameSession(selectedIntervals, []);
         setGameSession(gameSession);
         // TODO: this is not very stable, can be made better in the future
-        generateInterval(gameSession);
+        await generateInterval(gameSession);
 
     }
     const generateInterval = async (gameSessionObj: IntervalsTrainingGameSession) => {
@@ -53,6 +56,7 @@ export default function IntervalsTraining() {
         if (!gameSession) throw new Error("Game session is not initialized");
         if (!gameSession.currentRound || gameSession.currentRound.isFinished) throw new Error("Invalid state, last round is finished. Player needs to start a new round.");
         const newGameSession = gameSession.playerGuessed(interval);
+        //await generateInterval(newGameSession);
         setGameSession(newGameSession);
     }
     const replayInterval = async () => {
@@ -95,12 +99,6 @@ export default function IntervalsTraining() {
                   <>
                       <h1 className="text-2xl text-center mt-2">Round #{gameSession.rounds.length}</h1>
                       <div className="text-center button-group mt-3">
-                          <button
-                            disabled={!selectedIntervals.length || (!gameSession.currentRound?.isFinished && gameSession.rounds?.length > 0)}
-                            onClick={() => nextRound()}
-                            className="btn btn-primary-outline mt-2 mb-5">
-                              <Play height={15}/> Next Round
-                          </button>
                           <button
                             disabled={!gameSession.currentRound}
                             onClick={() => replayInterval()}
