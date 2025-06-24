@@ -48,13 +48,13 @@ export default function DiatonicModesRecognition() {
     }
     const nextRound = async () => {
         if (!gameSession) throw new Error("Game session is not initialized");
-        if (gameSession.currentRound && !gameSession.currentRound.isFinished) throw new Error("Invalid state, last round is not finished. Player needs to guess the chord.");
+        if (gameSession.currentRound && !gameSession.currentRound.isFinished) throw new Error("Invalid state, last round is not finished. Player needs to guess the mode.");
         await generateDiatonicMode(gameSession);
     }
-    const guessDiatonicMode = async (chord: DiatonicMode) => {
+    const guessDiatonicMode = async (mode: DiatonicMode) => {
         if (!gameSession) throw new Error("Game session is not initialized");
         if (!gameSession.currentRound || gameSession.currentRound.isFinished) throw new Error("Invalid state, last round is finished. Player needs to start a new round.");
-        const newGameSession = gameSession.playerGuessed(chord);
+        const newGameSession = gameSession.playerGuessed(mode);
         setGameSession(newGameSession);
     }
     const replayDiatonicMode = async () => {
@@ -74,7 +74,7 @@ export default function DiatonicModesRecognition() {
           </Head>
           <div className={"p-2"}>
               <h1 className="text-3xl text-center font-bold text-theme-color-title">Diatonic Modes Recognition</h1>
-              <h3 className="text-l text-center text-theme-grey">Improve your memory for chords</h3>
+              <h3 className="text-l text-center text-theme-grey">Improve your memory for modes</h3>
 
               {!gameSession && <>
                   <div className="p-3 mt-2 text-center">Pick intervals to practice now</div>
@@ -105,7 +105,7 @@ export default function DiatonicModesRecognition() {
                             disabled={!gameSession.currentRound}
                             onClick={() => replayDiatonicMode()}
                             className="btn btn-green-outline mt-2 mb-5 ms-4">
-                              <RotateCcw height={15}/> Replay chord
+                              <RotateCcw height={15}/> Replay mode
                           </button>
                       </div>
                       {
