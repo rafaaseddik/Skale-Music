@@ -2,7 +2,7 @@
 
 **Skale** is a minimalist toolbox built for musicians who want to sharpen their ears and deepen their understanding of music theory. The app offers interactive ear training for chords, intervals, and modes, along with powerful visual tools to explore scales and chords on any instrument.
 
-Built using modern technologies like **Next.js 15**, **SCSS**, **Vitest**, and **Yarn**, Skale is fast, modular, and easy to extend.
+Built using modern technologies like **Next.js 15**, **SCSS** + **Tailwind**, **Vitest**, and **Yarn**, Skale is fast, modular, and easy to extend.
 
 ---
 ## Website
