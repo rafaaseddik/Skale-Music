@@ -67,13 +67,18 @@ export default function Home() {
                           <div className={"tool-type"}><Dumbbell/> Ear gym</div>
                       </div>
                       <div
-                        className={`tool-container tool-container-scale-visualizer inactive ${ifClass(toolsType !== 'visualizer' && toolsType !== 'all', "hidden")}`}>
+                        className={`tool-container tool-container-more-tools h-full inactive ${ifClass(toolsType !== 'visualizer' && toolsType !== 'all', "hidden")}`}>
+                          <div className={"tool-icon"}>More tools</div>
+                          <div className={"tool-name mt-6"}>Coming soon</div>
+                      </div>
+                      <div
+                        className={`tool-container tool-container-scale-visualizer inactive hidden ${ifClass(toolsType !== 'visualizer' && toolsType !== 'all', "hidden")}`}>
                           <div className={"tool-icon"}>WIP</div>
                           <div className={"tool-name"}>Scale visualizer</div>
                           <div className={"tool-type"}><Telescope/> Visualizer</div>
                       </div>
                       <div
-                        className={`tool-container tool-container-chords-visualizer inactive ${ifClass(toolsType !== 'visualizer' && toolsType !== 'all', "hidden")}`}>
+                        className={`tool-container tool-container-chords-visualizer inactive hidden ${ifClass(toolsType !== 'visualizer' && toolsType !== 'all', "hidden")}`}>
                           <div className={"tool-icon"}>WIP</div>
                           <div className={"tool-name"}>Chords visualizer</div>
                           <div className={"tool-type"}><Telescope/> Visualizer</div>

@@ -43,7 +43,6 @@
 .tool-container {
   background: var(--theme-box-bg);
   padding: 95px 20px 20px;
-  aspect-ratio: 1/1;
   border-radius: 10px;
   transition: all .8s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -111,6 +110,11 @@
     //  background: #81ee81ee;
     //  color: white;
     //}
+  }
+  &-more-tools{
+    border-color: #81ee81;
+    background: #81ee8115;
+    color: #81ee81;
   }
 
   .tool-name {
