@@ -10,7 +10,7 @@ describe("IntervalTrainingGameSession", () => {
                 new IntervalTrainingRound(Interval.Unison, [C1, C1], [Interval.Unison])
             ];
             const gameSession = new IntervalsTrainingGameSession([Interval.Unison], rounds);
-            expect(gameSession.averageGuessesPerInterval()).toEqual({[Interval.Unison]: 1});
+            expect(gameSession.averageGuessesPerGuessType()).toEqual({[Interval.Unison]: 1});
         });
         it("should calculate the average number of guesses per interval for multiple correct guess", () => {
             const rounds: IntervalTrainingRound[] = [
@@ -22,14 +22,14 @@ describe("IntervalTrainingGameSession", () => {
                 new IntervalTrainingRound(Interval.Unison, [C1, C1], [Interval.Unison]),
             ];
             const gameSession = new IntervalsTrainingGameSession([Interval.Unison], rounds);
-            expect(gameSession.averageGuessesPerInterval()).toEqual({[Interval.Unison]: 1});
+            expect(gameSession.averageGuessesPerGuessType()).toEqual({[Interval.Unison]: 1});
         });
         it("should calculate the average number of guesses per interval for two guess", () => {
             const rounds: IntervalTrainingRound[] = [
                 new IntervalTrainingRound(Interval.Unison, [C1, C1], [Interval.Tritone, Interval.Unison])
             ];
             const gameSession = new IntervalsTrainingGameSession([Interval.Unison], rounds);
-            expect(gameSession.averageGuessesPerInterval()).toEqual({[Interval.Unison]: 2});
+            expect(gameSession.averageGuessesPerGuessType()).toEqual({[Interval.Unison]: 2});
         });
         it("should calculate the average number of guesses per interval for multiple two guess", () => {
             const rounds: IntervalTrainingRound[] = [
@@ -42,7 +42,7 @@ describe("IntervalTrainingGameSession", () => {
                 new IntervalTrainingRound(Interval.Unison, [C1, C1], [Interval.Tritone, Interval.Unison]),
             ];
             const gameSession = new IntervalsTrainingGameSession([Interval.Unison], rounds);
-            expect(gameSession.averageGuessesPerInterval()).toEqual({[Interval.Unison]: 2});
+            expect(gameSession.averageGuessesPerGuessType()).toEqual({[Interval.Unison]: 2});
         });
         it("should calculate the average number of guesses per interval for average of 1.5", () => {
             const rounds: IntervalTrainingRound[] = [
@@ -56,7 +56,7 @@ describe("IntervalTrainingGameSession", () => {
                 new IntervalTrainingRound(Interval.Unison, [C1, C1], [Interval.Unison]),
             ];
             const gameSession = new IntervalsTrainingGameSession([Interval.Unison], rounds);
-            expect(gameSession.averageGuessesPerInterval()).toEqual({[Interval.Unison]: 1.5});
+            expect(gameSession.averageGuessesPerGuessType()).toEqual({[Interval.Unison]: 1.5});
         });
         describe("should calculate the average number of guesses for all values", () => {
             const correctInterval = Interval.Unison;
@@ -66,7 +66,7 @@ describe("IntervalTrainingGameSession", () => {
                 const rounds = [round];
                 const gameSession = new IntervalsTrainingGameSession([Interval.Unison, Interval.Tritone], rounds);
                 it(`should calculate the average number of guesses for ${i} correct guesses`, () => {
-                    expect(gameSession.averageGuessesPerInterval()[Interval.Unison]).toEqual(i);
+                    expect(gameSession.averageGuessesPerGuessType()[Interval.Unison]).toEqual(i);
                 });
             }
         })

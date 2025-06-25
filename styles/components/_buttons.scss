@@ -3,6 +3,9 @@
   //border: 2px solid var(--theme-border-soft);
   border-radius: 0.5rem;
   padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   .btn{
     @apply text-sm md:text-base;
     margin: 0 0.5rem 0 0;

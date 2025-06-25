@@ -21,7 +21,7 @@ export default function IntervalSelector({selectableIntervals,selectedIntervals,
           <div className="grid grid-cols-4 gap-2">
               {selectableIntervals.sort((a,b)=>a-b).map((interval) => (
                 <div key={interval} className={`intervals-selector-item ${selectedIntervals.includes(interval) ? interval === correctInterval ? "selected-correct" : "selected-wrong": ""}`} onClick={() => {selectInterval(interval)}}>
-                    <div className="text-center">{interval} {IntervalUtils.getIntervalName(interval)}</div>
+                    <div className="text-center">{IntervalUtils.getIntervalName(interval)}</div>
                 </div>
 
               ))}

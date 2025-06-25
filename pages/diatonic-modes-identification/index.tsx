@@ -1,9 +1,9 @@
 "use client"
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { RandomizerUtils } from "@/core/utils/randomizer.utils";
-import MidiPlayer, { MidiPlayerRef } from "@/shared/components/midi-player.component";
-import { Play, RotateCcw } from "lucide-react";
+import MidiPlayer, { MidiPlayerRef, PlayMode } from "@/shared/components/midi-player.component";
+import { RotateCcw } from "lucide-react";
 import Head from "next/head";
 import GameScore from "@/shared/components/game-score.component";
 import GameStatistics from "@/shared/components/game-statistics.component";
@@ -12,23 +12,27 @@ import { DiatonicModesTrainingGameSession, DiatonicModeTrainingRound } from "@/c
 import { DiatonicModesUtils } from "@/core/utils/diatonic-modes.utils";
 import DiatonicModesSelector from "@/shared/components/selectors/diatonic-mode/diatonic-modes-selector.component";
 import DiatonicModeSelector from "@/shared/components/selectors/diatonic-mode/diatonic-mode-selector.component";
-import { sleep } from "@/core/utils/time.utils";
+import Dropdown from "@/shared/components/form/dropdown.component";
 
 // TODO: make this configurable in the UI
-const MIN_PLAYABLE_NOTE_MIDI_NUMBER = 36; //C3
+const MIN_PLAYABLE_NOTE_MIDI_NUMBER = 57; //A3
 const MAX_PLAYABLE_NOTE_MIDI_NUMBER = 72; // C5
+const SHOW_CORRECT_ANSWER_TIMEOUT = 500;
 export default function DiatonicModesRecognition() {
     const midiPlayerRef = useRef<MidiPlayerRef>(null);
     const [selectedDiatonicModes, setSelectedDiatonicModes] = useState<DiatonicMode[]>([]);
     const [gameSession, setGameSession] = useState<DiatonicModesTrainingGameSession | null>(null);
-    // useEffect(()=>{
-    //
-    // }, [gameSession]);
-    const startSession = () => {
+    const [playMode, setPlayMode] = useState<PlayMode>(PlayMode.Ascending);
+    useEffect(() => {
+        if(gameSession && gameSession.currentRound && gameSession.currentRound.isFinished) {
+            setTimeout(()=>nextRound(), SHOW_CORRECT_ANSWER_TIMEOUT); // The timeout is to let the player see the green light
+        }
+    }, [gameSession]);
+    const startSession = async () => {
         const gameSession = new DiatonicModesTrainingGameSession(selectedDiatonicModes, []);
         setGameSession(gameSession);
         // TODO: this is not very stable, can be made better in the future
-        generateDiatonicMode(gameSession);
+        await generateDiatonicMode(gameSession);
 
     }
     const generateDiatonicMode = async (gameSessionObj: DiatonicModesTrainingGameSession) => {
@@ -39,11 +43,7 @@ export default function DiatonicModesRecognition() {
         const round = new DiatonicModeTrainingRound(interval, notes, []);
         setGameSession(new DiatonicModesTrainingGameSession(gameSessionObj.guessableItems, [...gameSessionObj.rounds, round]));
         if (midiPlayerRef.current) {
-            midiPlayerRef.current.stop();
-            for (const note of notes) {
-                midiPlayerRef.current.playNote(note);
-                await sleep(200)
-            }
+            midiPlayerRef.current.playNotes(notes, playMode, 200);
         }
     }
     const nextRound = async () => {
@@ -61,11 +61,12 @@ export default function DiatonicModesRecognition() {
         if (!gameSession) throw new Error("Game session is not initialized");
         if (!gameSession.currentRound) throw new Error("No current round to replay");
         if (midiPlayerRef.current) {
-            midiPlayerRef.current.stop();
-            for (const note of gameSession.currentRound.notes) {
-                midiPlayerRef.current.playNote(note);
-                await sleep(200)
-            }
+            midiPlayerRef.current.playNotes(gameSession.currentRound.notes, playMode, 200);
+        }
+    }
+    const playModeChanged = (mode: string) => {
+        if(["Ascending", "Descending", "Blocked"].includes(mode)) {
+            setPlayMode(mode as PlayMode);
         }
     }
     return (<>
@@ -96,17 +97,12 @@ export default function DiatonicModesRecognition() {
                       <h1 className="text-2xl text-center mt-2">Round #{gameSession.rounds.length}</h1>
                       <div className="text-center button-group mt-3">
                           <button
-                            disabled={!selectedDiatonicModes.length || (!gameSession.currentRound?.isFinished && gameSession.rounds?.length > 0)}
-                            onClick={() => nextRound()}
-                            className="btn btn-primary-outline mt-2 mb-5">
-                              <Play height={15}/> Next Round
-                          </button>
-                          <button
                             disabled={!gameSession.currentRound}
                             onClick={() => replayDiatonicMode()}
                             className="btn btn-green-outline mt-2 mb-5 ms-4">
                               <RotateCcw height={15}/> Replay mode
                           </button>
+                          <Dropdown className="ms-2" options={[PlayMode.Ascending, PlayMode.Descending]} postfix={"notes"} selected={playMode} onSelect={(e)=>playModeChanged(e)}></Dropdown>
                       </div>
                       {
                         gameSession.currentRound &&
