@@ -44,7 +44,7 @@ export default function ChordsRecognition() {
         const round = new ChordTrainingRound(interval, notes, []);
         setGameSession(new ChordsTrainingGameSession(gameSessionObj.guessableItems, [...gameSessionObj.rounds, round]));
         if (midiPlayerRef.current) {
-            midiPlayerRef.current.playNotes(notes, playMode);
+            midiPlayerRef.current.playNotes(notes, playMode, 500);
         }
     }
     const nextRound = async () => {
@@ -62,7 +62,7 @@ export default function ChordsRecognition() {
         if (!gameSession) throw new Error("Game session is not initialized");
         if (!gameSession.currentRound) throw new Error("No current round to replay");
         if (midiPlayerRef.current) {
-            midiPlayerRef.current.playNotes(gameSession.currentRound.notes, playMode);
+            midiPlayerRef.current.playNotes(gameSession.currentRound.notes, playMode, 500);
         }
     }
     const playModeChanged = (mode: string) => {
@@ -103,7 +103,7 @@ export default function ChordsRecognition() {
                             className="btn btn-green-outline mt-2 mb-5 ms-4">
                               <RotateCcw height={15}/> Replay chord
                           </button>
-                          <Dropdown className="ms-2" options={[PlayMode.Blocked, PlayMode.Ascending, PlayMode.Descending]} selected={playMode} onSelect={(e)=>playModeChanged(e)}></Dropdown>
+                          <Dropdown className="ms-2" options={[PlayMode.Blocked, PlayMode.Ascending, PlayMode.Descending]} postfix={"notes"} selected={playMode} onSelect={(e)=>playModeChanged(e)}></Dropdown>
                       </div>
                       {
                         gameSession.currentRound &&

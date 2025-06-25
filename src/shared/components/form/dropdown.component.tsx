@@ -10,9 +10,11 @@ interface DropdownProps {
     selected: string;
     onSelect: (value: string) => void;
     className?: string;
+    prefix?: string;
+    postfix?: string;
 }
 
-export default function Dropdown({ options, selected, onSelect, className }: DropdownProps) {
+export default function Dropdown({ options, selected, onSelect, className, prefix, postfix }: DropdownProps) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -35,7 +37,7 @@ export default function Dropdown({ options, selected, onSelect, className }: Dro
             onClick={() => setIsOpen(!isOpen)}
             className="dropdown"
           >
-              <span>{selected}</span>
+              <span>{[prefix,selected,postfix].filter(Boolean).join(" ")}</span>
               <ChevronDown size={16} />
           </button>
           <AnimatePresence>
@@ -55,7 +57,7 @@ export default function Dropdown({ options, selected, onSelect, className }: Dro
                             setIsOpen(false);
                         }}
                       >
-                          {option}
+                          {[prefix,option,postfix].filter(Boolean).join(" ")}
                       </li>
                     ))}
                 </motion.ul>

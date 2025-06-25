@@ -9,18 +9,20 @@ const INSTRUMENTS = {
     guitar: "electric_guitar_clean",
 } as const;
 export type MidiPlayerInstrumentName = keyof typeof INSTRUMENTS
+
 export enum PlayMode {
     Blocked = "Blocked",
     Ascending = "Ascending",
     Descending = "Descending",
 }
+
 export type MidiPlayerRef = {
-    playNote: (note:Note) => void
-    playNotes: (notes:Note[], mode?:PlayMode) => void
+    playNote: (note: Note) => void
+    playNotes: (notes: Note[], mode?: PlayMode, noteDuration?: number) => void
     changeInstrument: (instrument: MidiPlayerInstrumentName) => void
     stop: () => void
 }
-export default function MidiPlayer({ref:externalRef}:{ref?:Ref<MidiPlayerRef>}) {
+export default function MidiPlayer({ref: externalRef}: { ref?: Ref<MidiPlayerRef> }) {
     const [instrumentName, setInstrumentName] = useState<MidiPlayerInstrumentName>("piano");
     const playerRef = useRef<Soundfont.Player | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -39,26 +41,26 @@ export default function MidiPlayer({ref:externalRef}:{ref?:Ref<MidiPlayerRef>}) 
         initPlayer();
     }, [instrumentName]);
     useImperativeHandle(externalRef, () => ({
-        playNote: (note:Note) => {
+        playNote: (note: Note) => {
             if (!playerRef.current || isLoading) return;
-            playerRef.current.play(note.noteString, 0, { duration: 1, gain:10 });
+            playerRef.current.play(note.noteString, 0, {duration: 1, gain: 10});
         },
-        playNotes: async (notes:Note[], mode:PlayMode = PlayMode.Blocked) => {
+        playNotes: async (notes: Note[], mode: PlayMode = PlayMode.Blocked, noteDuration = 1000) => {
             if (!playerRef.current || isLoading) return;
             playerRef.current.stop();
             if (mode === PlayMode.Blocked) {
-                for(const note of notes) {
-                    playerRef.current.play(note.noteString, 0, { duration: 1, gain:10 });
+                for (const note of notes) {
+                    playerRef.current.play(note.noteString, 0, {duration: 1, gain: 10});
                 }
             } else if (mode === PlayMode.Ascending) {
-                for(const note of notes) {
-                    playerRef.current.play(note.noteString, 0, { duration: 1, gain:10 });
-                    await sleep(1000);
+                for (const note of notes) {
+                    playerRef.current.play(note.noteString, 0, {duration: 1, gain: 10});
+                    await sleep(noteDuration);
                 }
             } else if (mode === PlayMode.Descending) {
-                for(const note of notes.toReversed()) {
-                    playerRef.current.play(note.noteString, 0, { duration: 1, gain:10 });
-                    await sleep(1000);
+                for (const note of notes.toReversed()) {
+                    playerRef.current.play(note.noteString, 0, {duration: 1, gain: 10});
+                    await sleep(noteDuration);
                 }
             }
         },

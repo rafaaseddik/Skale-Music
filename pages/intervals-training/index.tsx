@@ -4,14 +4,14 @@ import { Interval } from "@/core/definitions/intervals.definition";
 import { useEffect, useRef, useState } from "react";
 import { IntervalUtils } from "@/core/utils/intervals.utils";
 import { RandomizerUtils } from "@/core/utils/randomizer.utils";
-import MidiPlayer, { MidiPlayerRef } from "@/shared/components/midi-player.component";
-import { sleep } from "@/core/utils/time.utils";
+import MidiPlayer, { MidiPlayerRef, PlayMode } from "@/shared/components/midi-player.component";
 import { IntervalsTrainingGameSession, IntervalTrainingRound } from "@/core/domain/intervals-training-game-session";
 import IntervalSelector from "@/shared/components/interval-selector.component";
 import { RotateCcw } from "lucide-react";
 import Head from "next/head";
 import GameScore from "@/shared/components/game-score.component";
 import GameStatistics from "@/shared/components/game-statistics.component";
+import Dropdown from "@/shared/components/form/dropdown.component";
 
 // TODO: make this configurable in the UI
 const MIN_PLAYABLE_NOTE_MIDI_NUMBER = 45; //A2
@@ -21,6 +21,7 @@ export default function IntervalsTraining() {
     const midiPlayerRef = useRef<MidiPlayerRef>(null);
     const [selectedIntervals, setSelectedIntervals] = useState<Interval[]>([]);
     const [gameSession, setGameSession] = useState<IntervalsTrainingGameSession | null>(null);
+    const [playMode, setPlayMode] = useState<PlayMode>(PlayMode.Ascending);
     useEffect(() => {
         if(gameSession && gameSession.currentRound && gameSession.currentRound.isFinished) {
             setTimeout(()=>nextRound(), SHOW_CORRECT_ANSWER_TIMEOUT); // The timeout is to let the player see the green light
@@ -41,10 +42,7 @@ export default function IntervalsTraining() {
         const round:IntervalTrainingRound = new IntervalTrainingRound(interval, [note1, note2], []);
         setGameSession(new IntervalsTrainingGameSession(gameSessionObj.guessableItems, [...gameSessionObj.rounds, round]));
         if (midiPlayerRef.current) {
-            midiPlayerRef.current.stop();
-            midiPlayerRef.current.playNote(note1);
-            await sleep(1000);
-            midiPlayerRef.current.playNote(note2);
+            midiPlayerRef.current.playNotes([note1, note2], playMode, 1000);
         }
     }
     const nextRound = async () => {
@@ -65,10 +63,12 @@ export default function IntervalsTraining() {
         const note1 = gameSession.currentRound.notes[0];
         const note2 = gameSession.currentRound.notes[1];
         if (midiPlayerRef.current) {
-            midiPlayerRef.current.stop();
-            midiPlayerRef.current.playNote(note1);
-            await sleep(1000);
-            midiPlayerRef.current.playNote(note2);
+            midiPlayerRef.current.playNotes([note1, note2], playMode, 1000);
+        }
+    }
+    const playModeChanged = (mode: string) => {
+        if(["Ascending", "Descending", "Blocked"].includes(mode)) {
+            setPlayMode(mode as PlayMode);
         }
     }
     return (
@@ -105,6 +105,7 @@ export default function IntervalsTraining() {
                             className="btn btn-green-outline mt-2 mb-5 ms-4">
                               <RotateCcw height={15}/> Replay interval
                           </button>
+                          <Dropdown className="ms-2" options={[PlayMode.Blocked,PlayMode.Ascending, PlayMode.Descending]} postfix={"notes"} selected={playMode} onSelect={(e)=>playModeChanged(e)}></Dropdown>
                       </div>
                       {
                         gameSession.currentRound &&
