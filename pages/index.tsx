@@ -17,6 +17,7 @@ export default function Home() {
               <meta property="og:image" content="https://skale-music.vercel.app/OG_image.png" key="ogimage" />
               <meta property="og:url" content="https://skale-music.vercel.app/" key="ogurl" />
               <meta property="og:type" content="website" />
+              <meta name="google-site-verification" content="PrtzTOnVlbEosIlNxgwb6o-9dpbkeZr8M_hVl2paJL4" />
           </Head>
           <div className={"p-2"}>
               <h1 className="text-3xl text-center font-bold text-theme-color-title">Welcome to Skale</h1>
