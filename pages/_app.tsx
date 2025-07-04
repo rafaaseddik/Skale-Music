@@ -22,6 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     </main>
     <footer>
         <div className="text-center p-1">Copyright © 2025 Skale. All rights reserved.</div>
+        <div className="text-center px-1 mb-3">Contact us onFacebook: <a className={"underline"} href={"https://www.facebook.com/profile.php?id=61577715346970"} target="_blank">Skale Music App</a></div>
         <div className="text-center px-1 mb-3">Source code: <a className={"underline"} href={"https://github.com/rafaaseddik/Skale-Music"} target="_blank">rafaaseddik/Skale-Music</a></div>
     </footer>
     </div>
