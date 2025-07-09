@@ -16,9 +16,10 @@ interface DropdownProps<T extends string = string> {
     className?: string;
     prefix?: string;
     postfix?: string;
+    label?: string;
 }
 
-export default function Dropdown({ options, selected, onSelect, className, prefix, postfix }: DropdownProps) {
+export default function Dropdown({ options, selected, onSelect, className, prefix, postfix, label }: DropdownProps) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -36,11 +37,11 @@ export default function Dropdown({ options, selected, onSelect, className, prefi
     }, []);
 
     return (
-      <div className={`relative inline-block text-left ${className}`} ref={dropdownRef}>
+      <div className={`dropdown relative inline-block text-left ${className}`} ref={dropdownRef}>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="dropdown"
           >
+              {label && <span className="dropdown-label">{label}:</span>}
               <span>{[prefix,selected.label,postfix].filter(Boolean).join(" ")}</span>
               <ChevronDown size={16} />
           </button>
