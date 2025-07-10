@@ -1,6 +1,4 @@
-import { Note } from "@/core/domain/note";
 import { PitchClassString } from "@/core/definitions/notes.definition";
-import { Interval } from "@/core/definitions/intervals.definition";
 import { IntervalUtils } from "@/core/utils/intervals.utils";
 
 interface NotesGroupProps {
@@ -25,14 +23,19 @@ export default function NotesGroup({
                       <tbody>
                       <tr>
                           <td>Notes</td>
-                          <td>Interval</td>
-                          <td>Semitones</td>
+                          {showIntervals && intervals && (<>
+                              <td>Interval</td>
+                              <td>Semitones</td>
+                          </>)}
                       </tr>
                       {notes.map((note, index) => (
                         <tr key={note}>
                             <td className="text-left">{note}</td>
-                            <td className="text-left">{IntervalUtils.getIntervalName(intervals[index])}</td>
-                            <td className="text-left">{intervals[index]}</td>
+                            {showIntervals && intervals && (<>
+                                <td className="text-left">{IntervalUtils.getIntervalName(intervals[index])}</td>
+                                <td className="text-left">{intervals[index]}</td>
+                            </>)}
+
                         </tr>
                       ))}
 

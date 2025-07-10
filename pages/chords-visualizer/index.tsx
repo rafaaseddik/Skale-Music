@@ -15,6 +15,7 @@ import { ChordsUtils } from "@/core/utils/chords.utils";
 import { Note } from "@/core/domain/note";
 import NotesGroup from "@/shared/components/notes-group.component";
 import { Interval } from "@/core/definitions/intervals.definition";
+import { ArrayUtils } from "@/core/utils/array.utils";
 
 const NoteKeyOptions: DropdownOption<NoteLetter>[] = [
     {value: "C", label: "C"},
@@ -31,9 +32,9 @@ const AccidentalOptions: DropdownOption<Accidental>[] = [
     {value: "#", label: "# - Sharp"},
 ];
 const InversionOptions: DropdownOption<string>[] = [
-    {value: "1", label: "1st"},
-    {value: "2", label: "2nd"},
-    {value: "3", label: "3rd"},
+    {value: "1", label: "Root position"},
+    {value: "2", label: "1st"},
+    {value: "3", label: "2nd"},
 ];
 
 export default function ChordsRecognition() {
@@ -43,19 +44,23 @@ export default function ChordsRecognition() {
     const [selectedChord, setSelectedChord] = useState<Chord>(Chord.MAJOR);
     const [chordNotes, setChordNotes] = useState<PitchClassString[]>([]);
     const [chordIntervals, setChordIntervals] = useState<Interval[]>([]);
+    const [inversion, setInversion] = useState<DropdownOption>(InversionOptions[0]);
 
     useEffect(() => {
         const notes = ChordsUtils.getNotesFromChord(new Note(chordRootNoteKey.value, chordRootNoteAccidental.value, "4"), selectedChord);
-        setChordNotes(notes.map(note => note.pitchClassString));
-        setChordIntervals(ChordsUtils.getChordInterval(selectedChord));
+        setChordNotes(ArrayUtils.applyInversion(notes.map(note => note.pitchClassString), Number(inversion.value)));
+        setChordIntervals(ArrayUtils.applyInversion(ChordsUtils.getChordInterval(selectedChord), Number(inversion.value)));
 
-    }, [selectedChord, chordRootNoteKey, chordRootNoteAccidental])
+    }, [selectedChord, chordRootNoteKey, chordRootNoteAccidental, inversion])
 
     const chordRootNoteKeyChanged = (key: DropdownOption<NoteLetter>) => {
         setChordRootNoteKey(key);
     }
     const chordRootNoteAccidentalChanged = (accidental: DropdownOption<Accidental>) => {
         setChordRootNoteAccidental(accidental);
+    }
+    const inversionChanged = (inversion: DropdownOption) => {
+        setInversion(inversion);
     }
     return (<>
           <Head>
@@ -67,12 +72,15 @@ export default function ChordsRecognition() {
 
               <>
                   <div className="p-3 mt-2 text-center">Pick root key</div>
-                  <div className="gap-3 columns-1 sm:columns-2">
-                     <div className="text-center sm:text-right mb-2 sm:mb-0">
+                  <div className="gap-3 columns-1 md:columns-3">
+                     <div className="text-center md:text-right mb-2 md:mb-0">
                          <Dropdown className="large-dropdown" label="Key" options={NoteKeyOptions} postfix={""} selected={chordRootNoteKey} onSelect={(e)=>chordRootNoteKeyChanged(e as DropdownOption<NoteLetter>)}></Dropdown>
                      </div>
-                      <div className="text-center sm:text-left mb-2 sm:mb-0">
+                      <div className="text-center md:text-center mb-2 md:mb-0">
                           <Dropdown className="large-dropdown" label="Accidental" options={AccidentalOptions} postfix={""} selected={chordRootNoteAccidental} onSelect={(e)=>chordRootNoteAccidentalChanged(e as DropdownOption<Accidental>)}></Dropdown>
+                      </div>
+                      <div className="text-center md:text-left mb-2 md:mb-0">
+                          <Dropdown className="large-dropdown" label="Inversion" options={InversionOptions} postfix={""} selected={inversion} onSelect={(e)=>inversionChanged(e as DropdownOption)}></Dropdown>
                       </div>
                   </div>
                   <div className="pt-3">
