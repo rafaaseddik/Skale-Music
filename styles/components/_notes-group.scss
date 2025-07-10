@@ -1,0 +1,19 @@
+.notes-group-container{
+  width: 100%;
+  border: 2px solid var(--theme-box-border);
+  .notes-group-title{
+    border-bottom: 1px solid var(--theme-box-border);
+    padding: 12px;
+    text-align: center;
+  }
+  .notes-group-table{
+    width: 100%;
+    td{
+      padding: 12px;
+    }
+  }
+  .note-item{
+    padding: 12px;
+    text-align: center;
+  }
+}

@@ -26,6 +26,30 @@ describe("IntervalUtils", () => {
                 expect(IntervalUtils.getIntervalName(interval)).toBe(name);
             })
         });
+        it("should get intervals for semitones greater than 12", () => {
+            const testCases: [number, string][] = [
+                [13, "1 octave + Minor Second"],
+                [14, "1 octave + Major Second"],
+                [15, "1 octave + Minor Third"],
+                [16, "1 octave + Major Third"],
+                [17, "1 octave + Perfect Fourth"],
+                [18, "1 octave + Tritone"],
+                [19, "1 octave + Perfect Fifth"],
+                [20, "1 octave + Minor Sixth"],
+                [21, "1 octave + Major Sixth"],
+                [22, "1 octave + Minor Seventh"],
+                [23, "1 octave + Major Seventh"],
+                [24, "2 octaves"],
+                [36, "3 octaves"],
+                [48, "4 octaves"],
+                [49, "4 octaves + Minor Second"],
+                [50, "4 octaves + Major Second"],
+
+            ];
+            testCases.forEach(([interval, name]: [Interval, string]) => {
+                expect(IntervalUtils.getIntervalName(interval)).toBe(name);
+            })
+        })
         it("should throw error for out of bounds interval", () => {
             expect(() => IntervalUtils.getIntervalName(13)).toThrow("Interval out of bounds");
             expect(() => IntervalUtils.getIntervalName(-1)).toThrow("Interval out of bounds");
