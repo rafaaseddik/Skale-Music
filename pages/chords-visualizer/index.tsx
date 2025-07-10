@@ -16,6 +16,7 @@ import { Note } from "@/core/domain/note";
 import NotesGroup from "@/shared/components/notes-group.component";
 import { Interval } from "@/core/definitions/intervals.definition";
 import { ArrayUtils } from "@/core/utils/array.utils";
+import Keyboard from "@/shared/components/keyboard.component";
 
 const NoteKeyOptions: DropdownOption<NoteLetter>[] = [
     {value: "C", label: "C"},
@@ -90,13 +91,17 @@ export default function ChordsRecognition() {
                                       chordsUpdated={selectedChords => setSelectedChord(selectedChords[0])}></ChordsSelector>
                   </div>
                   <div className="mt-3">
+                      <div className="flex justify-center pb-3">
+                          <Keyboard octaves={3} notes={chordNotes}></Keyboard>
+                      </div>
                       <NotesGroup title={`${chordRootNoteKey.label}${chordRootNoteAccidental.value} ${ChordsUtils.getChordName(selectedChord)} notes`}
                                   notes={chordNotes}
                                   intervals={chordIntervals}
                                   showIntervals={true}
                       ></NotesGroup>
 
-                      {/* ADD INTERVALS TOO*/}
+
+
 
                   </div>
               </>

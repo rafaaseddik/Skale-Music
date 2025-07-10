@@ -10,6 +10,7 @@ export const NoteStringRegex = /^[A-Ga-g][#b]?[0-8]$/
 export const NATURAL_NOTES_ORDER: NoteLetter[] = ["C", "D", "E", "F", "G", "A", "B"];
 export const ACCIDENTALS: Accidental[] = ["", "#", "b"];
 export const ALL_NOTES_ORDER: PitchClassString[][] = [["C"], ["C#", "Db"], ["D"], ["D#", "Eb"], ["E", "Fb"], ["F", "E#"], ["F#", "Gb"], ["G"], ["G#", "Ab"], ["A"], ["A#", "Bb"], ["B", "Cb"], ["B#"]];
+export const ALL_PITCH_CLASSES: PitchClassString[] = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
 export function getAccidentalName(accidental: Accidental): string {
     switch (accidental) {
