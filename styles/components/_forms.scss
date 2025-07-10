@@ -1,27 +1,46 @@
-.dropdown{
-  @apply inline-flex justify-between items-center w-48 px-4 py-2 rounded-lg shadow-sm hover:bg-gray-100 transition-all;
+.dropdown {
+  button {
+    @apply inline-flex justify-between items-center w-48 px-4 py-2 rounded-lg shadow-sm hover:bg-gray-100 transition-all;
 
-  border: 2px solid var(--theme-box-border);
-  color: var(--theme-color-hover);
-  @apply text-sm md:text-base;
-  font-weight: 600;
-  cursor: pointer;
-  &:hover{
-    background-color: var(--theme-box-bg);
+    border: 2px solid var(--theme-box-border);
+    color: var(--theme-color-hover);
+    @apply text-sm md:text-base;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--theme-box-bg);
+    }
+  }
+
+
+  &.large-dropdown {
+    button{
+      @apply w-64;
+    }
+
+  }
+
+  .dropdown-label {
+    color: var(--theme-grey);
+    padding-right: 10px;
   }
 
 }
-.dropdown-list{
-  @apply  absolute z-10 mt-2 w-full border rounded-lg shadow-lg overflow-hidden;
+
+.dropdown-list {
+  @apply absolute z-10 mt-2 w-full border rounded-lg shadow-lg overflow-hidden;
   background: var(--background);
   border: 2px solid var(--theme-box-border);
-  li{
+
+  li {
     @apply px-4 py-2 cursor-pointer;
-    &.active{
+    &.active {
       color: var(--theme-color-hover);
       font-weight: 600;
     }
-    &:hover{
+
+    &:hover {
       background-color: var(--theme-box-bg);
     }
   }

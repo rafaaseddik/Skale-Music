@@ -1,0 +1,85 @@
+.keyboard{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  user-select: none;
+  transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+  &-octave{
+    @apply flex;
+    position: relative;
+    .keyboard-key-white{
+      transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+      &.active{
+        background: var(--theme-color);
+        color: white;
+        font-weight: 600;
+      }
+      &:hover{
+        cursor: pointer;
+        background: #eeeeee;
+        border-bottom: 5px solid var(--theme-border);
+        &.active{
+          background: var(--theme-color);
+        }
+      }
+      @apply bg-white;
+      width: 46px;
+      height: 180px;
+      margin: 2px;
+      padding-bottom: 4px;
+      color:black;
+      display: flex;
+      align-items: end;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 500;
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+    .keyboard-black-keys{
+      @apply flex;
+      position: absolute;
+      padding-left: 36px;
+      .keyboard-key-black{
+        transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.3);
+        @apply bg-black;
+        width: 26px;
+        height: 120px;
+        margin: 2px;
+        padding-bottom: 4px;
+        color:white;
+        display: flex;
+        align-items: end;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 500;
+        margin-right: 23px;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        &.active{
+          background: var(--theme-color);
+          color: white;
+          font-weight: 600;
+        }
+        &:hover{
+          cursor: pointer;
+          background: #222222;
+          border-bottom: 5px solid var(--theme-border);
+          &.active{
+            background: var(--theme-color);
+          }
+        }
+        &:nth-child(3){
+          transform: translateX(-3px);
+        }
+        &:nth-child(5){
+          transform: translateX(3px);
+        }
+        &:nth-child(2){
+          margin-right: 69px;
+        }
+      }
+    }
+  }
+}

@@ -5,16 +5,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { ifClass } from "@/shared/utils/react-dom-utils";
 
-interface DropdownProps {
-    options: string[];
-    selected: string;
-    onSelect: (value: string) => void;
+export type DropdownOption<T extends string = string> = {
+  value: T;
+  label: string;
+};
+interface DropdownProps<T extends string = string> {
+    options: DropdownOption<T>[];
+    selected: DropdownOption<T>;
+    onSelect: (value: DropdownOption<T>) => void;
     className?: string;
     prefix?: string;
     postfix?: string;
+    label?: string;
 }
 
-export default function Dropdown({ options, selected, onSelect, className, prefix, postfix }: DropdownProps) {
+export default function Dropdown({ options, selected, onSelect, className, prefix, postfix, label }: DropdownProps) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -32,12 +37,12 @@ export default function Dropdown({ options, selected, onSelect, className, prefi
     }, []);
 
     return (
-      <div className={`relative inline-block text-left ${className}`} ref={dropdownRef}>
+      <div className={`dropdown relative inline-block text-left ${className}`} ref={dropdownRef}>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="dropdown"
           >
-              <span>{[prefix,selected,postfix].filter(Boolean).join(" ")}</span>
+              {label && <span className="dropdown-label">{label}:</span>}
+              <span>{[prefix,selected.label,postfix].filter(Boolean).join(" ")}</span>
               <ChevronDown size={16} />
           </button>
           <AnimatePresence>
@@ -51,13 +56,13 @@ export default function Dropdown({ options, selected, onSelect, className, prefi
                     {options.map((option, index) => (
                       <li
                         key={index}
-                        className={` ${ifClass(selected === option,'active')}`}
+                        className={` ${ifClass(selected.value === option.value,'active')}`}
                         onClick={() => {
                             onSelect(option);
                             setIsOpen(false);
                         }}
                       >
-                          {[prefix,option,postfix].filter(Boolean).join(" ")}
+                          {[prefix,option.label,postfix].filter(Boolean).join(" ")}
                       </li>
                     ))}
                 </motion.ul>

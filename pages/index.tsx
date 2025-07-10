@@ -68,6 +68,15 @@ export default function Home() {
                           <div className={"tool-type"}><Dumbbell/> Ear gym</div>
                       </div>
                       <div
+                        className={`tool-container tool-container-chords-recognition ${ifClass(toolsType !== 'visualizer' && toolsType !== 'all', "hidden")}`}
+                        onClick={() => window.location.href = '/chords-visualizer'}>
+                          <div className={"tool-icon"}><Image className={"invert"} src={"icons/Chord.svg"} alt={"logo"}
+                                                              width={40} height={50}/></div>
+                          <div className={"tool-name"}>Chords visualizer</div>
+                          <div className="new-tag">NEW</div>
+                          <div className={"tool-type"}><Telescope/> Visualizer</div>
+                      </div>
+                      <div
                         className={`tool-container tool-container-more-tools h-full inactive ${ifClass(toolsType !== 'visualizer' && toolsType !== 'all', "hidden")}`}>
                           <div className={"tool-icon"}>More tools</div>
                           <div className={"tool-name mt-6"}>Coming soon</div>

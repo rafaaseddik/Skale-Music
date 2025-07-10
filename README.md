@@ -11,7 +11,8 @@ Built using modern technologies like **Next.js 15**, **SCSS** + **Tailwind**, **
 ## 🚀 Features
 
 - 🎧 Ear training: chords, intervals, and modes
-- 🎹 Scale and chord visualization (Coming soon)
+- 🎹 chords visualization
+- 🎸 scales visualization (Coming soon)
 
 ---
 

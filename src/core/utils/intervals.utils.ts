@@ -6,7 +6,18 @@ export class IntervalUtils {
      * Returns the name of the interval based on the number of semitones, in the range [0, 12).
      * @returns The name of the interval
      */
-    static getIntervalName(semitones: number) {
+    static getIntervalName(semitones: number):string {
+        if(semitones>12){
+            const octaves = Math.floor(semitones/12);
+            semitones -= octaves*12;
+            if(semitones === 0) {
+                return `${octaves} octave${octaves > 1 ? "s" : ""}`;
+            }
+            else{
+                return `${octaves} octave${octaves > 1 ? "s" : ""} + ${this.getIntervalName(semitones)}`;
+            }
+
+        }
         if(semitones < 0 || semitones > 12) {
             throw new Error("Interval out of bounds");
         }

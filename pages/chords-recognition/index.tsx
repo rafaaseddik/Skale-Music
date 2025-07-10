@@ -12,17 +12,22 @@ import ChordSelector from "@/shared/components/chord-selector.component";
 import Head from "next/head";
 import GameScore from "@/shared/components/game-score.component";
 import GameStatistics from "@/shared/components/game-statistics.component";
-import Dropdown from "@/shared/components/form/dropdown.component";
+import Dropdown, { DropdownOption } from "@/shared/components/form/dropdown.component";
 
 // TODO: make this configurable in the UI
 const MIN_PLAYABLE_NOTE_MIDI_NUMBER = 57; //A3
 const MAX_PLAYABLE_NOTE_MIDI_NUMBER = 72; // C5
 const SHOW_CORRECT_ANSWER_TIMEOUT = 500;
+const PlayModeOptions: DropdownOption<PlayMode>[] = [
+    {value: PlayMode.Blocked, label: `${PlayMode.Blocked} notes`},
+    {value: PlayMode.Ascending, label: `${PlayMode.Ascending} notes`},
+    {value: PlayMode.Descending, label: `${PlayMode.Descending} notes`}
+]
 export default function ChordsRecognition() {
     const midiPlayerRef = useRef<MidiPlayerRef>(null);
     const [selectedChords, setSelectedChords] = useState<Chord[]>([]);
     const [gameSession, setGameSession] = useState<ChordsTrainingGameSession | null>(null);
-    const [playMode, setPlayMode] = useState<PlayMode>(PlayMode.Blocked);
+    const [playMode, setPlayMode] = useState<DropdownOption<PlayMode>>(PlayModeOptions[0]);
     useEffect(() => {
         if (gameSession && gameSession.currentRound && gameSession.currentRound.isFinished) {
             setTimeout(() => nextRound(), SHOW_CORRECT_ANSWER_TIMEOUT); // The timeout is to let the player see the green light
@@ -44,7 +49,7 @@ export default function ChordsRecognition() {
         const round = new ChordTrainingRound(interval, notes, []);
         setGameSession(new ChordsTrainingGameSession(gameSessionObj.guessableItems, [...gameSessionObj.rounds, round]));
         if (midiPlayerRef.current) {
-            midiPlayerRef.current.playNotes(notes, playMode, 500);
+            midiPlayerRef.current.playNotes(notes, playMode.value, 500);
         }
     }
     const nextRound = async () => {
@@ -62,13 +67,11 @@ export default function ChordsRecognition() {
         if (!gameSession) throw new Error("Game session is not initialized");
         if (!gameSession.currentRound) throw new Error("No current round to replay");
         if (midiPlayerRef.current) {
-            midiPlayerRef.current.playNotes(gameSession.currentRound.notes, playMode, 500);
+            midiPlayerRef.current.playNotes(gameSession.currentRound.notes, playMode.value, 500);
         }
     }
-    const playModeChanged = (mode: string) => {
-        if(["Ascending", "Descending", "Blocked"].includes(mode)) {
-            setPlayMode(mode as PlayMode);
-        }
+    const playModeChanged = (mode: DropdownOption<PlayMode>) => {
+            setPlayMode(mode);
     }
     return (<>
           <Head>
@@ -103,7 +106,8 @@ export default function ChordsRecognition() {
                             className="btn btn-green-outline mt-2 mb-5 ms-4">
                               <RotateCcw height={15}/> Replay chord
                           </button>
-                          <Dropdown className="ms-2" options={[PlayMode.Blocked, PlayMode.Ascending, PlayMode.Descending]} postfix={"notes"} selected={playMode} onSelect={(e)=>playModeChanged(e)}></Dropdown>
+                          <Dropdown className="ms-2" options={PlayModeOptions}
+                                    selected={playMode} onSelect={(e) => playModeChanged(e as DropdownOption<PlayMode>)}></Dropdown>
                       </div>
                       {
                         gameSession.currentRound &&

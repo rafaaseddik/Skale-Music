@@ -7,23 +7,33 @@ import { CheckSquare, Ellipsis, Square } from "lucide-react";
 type ChordsSelectorProps = {
     initialSelectedChords?: Chord[]
     chordsUpdated?: (Chords: Chord[]) => void
-    activateOnly?: boolean;
+    activateOnly?: boolean; // if true, only allow activation no toggle.
+    singleSelect?: boolean; // if true, only allow selecting one Chord
 }
 const SHOW_MORE_INDEX = 8;
 export default function ChordsSelector({
                                            initialSelectedChords,
                                            chordsUpdated,
-                                           activateOnly
+                                           activateOnly,
+                                           singleSelect
                                        }: ChordsSelectorProps) {
     const [selectedChords, setSelectedChords] = useState<Chord[]>(initialSelectedChords ?? []);
     const [showAllChords, setShowAllChords] = useState(false);
     const toggleChord = (Chord: Chord) => {
-        if (!selectedChords.includes(Chord)) {
+        if (singleSelect) {
+            setSelectedChords([Chord]);
+        } else if (!selectedChords.includes(Chord)) {
             setSelectedChords([...selectedChords, Chord]);
         } else if (!activateOnly) {
             setSelectedChords(selectedChords.filter((i) => i !== Chord));
         }
     };
+    useEffect(() => {
+        if (singleSelect && selectedChords.length > 1) {
+            throw new Error("Only one Chord can be selected if singleSelect is true");
+        }
+    }, [singleSelect, selectedChords])
+
     useEffect(() => {
         if (chordsUpdated) {
             chordsUpdated(selectedChords);
@@ -46,16 +56,20 @@ export default function ChordsSelector({
     return (
       <div className="flex flex-col gap-2 chords-selector">
           <div className="grid grid-cols-2 gap-4">
-              <div className="chords-selector-item" onClick={selectAllChords}>
-                  <div className="text-center"><CheckSquare className="w-5 h-5 text-green-600"
-                                                            color={"var(--theme-grey)"}/>Select All
-                  </div>
-              </div>
-              <div className="chords-selector-item" onClick={deselectAllChords}>
-                  <div className="text-center"><Square className="w-5 h-5 text-gray-600" color={"var(--theme-grey)"}/>Deselect
-                      All
-                  </div>
-              </div>
+              {!singleSelect && (<>
+                    <div className="chords-selector-item" onClick={selectAllChords}>
+                        <div className="text-center"><CheckSquare className="w-5 h-5 text-green-600"
+                                                                  color={"var(--theme-grey)"}/>Select All
+                        </div>
+                    </div>
+                    <div className="chords-selector-item" onClick={deselectAllChords}>
+                        <div className="text-center"><Square className="w-5 h-5 text-gray-600"
+                                                             color={"var(--theme-grey)"}/>Deselect
+                            All
+                        </div>
+                    </div>
+                </>
+              )}
               {ALL_CHORDS.slice(0, SHOW_MORE_INDEX).map((Chord) => (
                 <div key={Chord}
                      className={`${ChordColSpan(Chord)} chords-selector-item  ${ifClass(selectedChords.includes(Chord), "selected")}`}
@@ -83,5 +97,6 @@ export default function ChordsSelector({
               ))}
           </div>
       </div>
-    );
+    )
+      ;
 }
