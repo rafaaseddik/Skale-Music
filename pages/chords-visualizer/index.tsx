@@ -72,8 +72,7 @@ export default function ChordsRecognition() {
               <h3 className="text-l text-center text-theme-grey">Explore chords</h3>
 
               <>
-                  <div className="p-3 mt-2 text-center">Pick root key</div>
-                  <div className="gap-3 columns-1 md:columns-3">
+                  <div className="gap-3 columns-1 md:columns-3 mt-3">
                      <div className="text-center md:text-right mb-2 md:mb-0">
                          <Dropdown className="large-dropdown" label="Key" options={NoteKeyOptions} postfix={""} selected={chordRootNoteKey} onSelect={(e)=>chordRootNoteKeyChanged(e as DropdownOption<NoteLetter>)}></Dropdown>
                      </div>
