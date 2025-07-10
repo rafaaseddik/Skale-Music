@@ -73,6 +73,7 @@ export default function Home() {
                           <div className={"tool-icon"}><Image className={"invert"} src={"icons/Chord.svg"} alt={"logo"}
                                                               width={40} height={50}/></div>
                           <div className={"tool-name"}>Chords visualizer</div>
+                          <div className="new-tag">NEW</div>
                           <div className={"tool-type"}><Telescope/> Visualizer</div>
                       </div>
                       <div
